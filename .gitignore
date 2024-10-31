@@ -1,0 +1,6 @@
+.venv
+.vscode
+.vscodium
+data
+.env
+**__pycache__
