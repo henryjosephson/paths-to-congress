@@ -157,15 +157,27 @@
                 id: politician.id,
                 name: `${politician.givenName} ${politician.familyName}`,
                 stages: careerStages,
-                color: '#1f77b4'
+                color: politician.party === 'D' ? '#0052A5' : // Democratic blue
+                    politician.party === 'R' ? '#CC0000' : // Republican red
+                    '#808080', // Gray for Independent
+                party: politician.party,
+                state: politician.state,
             };
         }
 
         // Fetch and process the JSON data
         d3.json('../data/118-processed-bios.json').then(data => {
-            // Get the first politician's data
-            const firstPolitician = Object.values(data)[0];
-            const processedPolitician = processCareerStages(firstPolitician);
+            // Process all politicians and randomly select 5
+            const allPoliticians = Object.values(data).map(politician => 
+                processCareerStages(politician)
+            );
+            
+            // Randomly sample 5 politicians
+            const sampledPoliticians = allPoliticians
+                .sort(() => 0.5 - Math.random())
+                .slice(0, 10);
+            
+            console.log("Sampled politicians:", sampledPoliticians.map(p => p.name));
             
             // Set up the SVG
             const width = 800;
@@ -176,6 +188,19 @@
                 .append('svg')
                 .attr('width', width)
                 .attr('height', height);
+
+            // Create tooltip div
+            const tooltip = d3.select('#visualization')
+                .append('div')
+                .attr('class', 'tooltip')
+                .style('opacity', 0)
+                .style('position', 'absolute')
+                .style('background', 'white')
+                .style('border', '1px solid #ddd')
+                .style('border-radius', '4px')
+                .style('padding', '8px')
+                .style('pointer-events', 'none')
+                .style('box-shadow', '0 2px 4px rgba(0,0,0,0.1)');
 
             // Draw nodes
             svg.selectAll('circle')
@@ -197,31 +222,72 @@
                 .attr('y', d => d.y - 15)
                 .text(d => d.label);
 
-            // Create path
+            // Create path generator
             const line = d3.line()
                 .x(d => d.x)
                 .y(d => d.y)
                 .curve(d3.curveCatmullRom.alpha(0.5));
 
-            // Get coordinates for each stage in the politician's career
-            const pathPoints = processedPolitician.stages.map(stageId => {
-                const stage = stages.find(s => s.id === stageId);
-                return {x: stage.x, y: stage.y};
-            }).sort((a, b) => a.x - b.x);
+            // Create a group for all paths
+            const pathGroup = svg.append('g')
+                .attr('class', 'paths');
 
-            // Draw the path
-            svg.append('path')
-                .attr('class', 'path')
-                .attr('d', line(pathPoints))
-                .style('stroke', processedPolitician.color);
+            // Draw paths for sampled politicians
+            sampledPoliticians.forEach((politician, index) => {
+                const pathPoints = politician.stages.map(stageId => {
+                    const stage = stages.find(s => s.id === stageId);
+                    return {x: stage.x, y: stage.y};
+                }).sort((a, b) => a.x - b.x);
 
-            // Add politician's name at the start of their path
-            svg.append('text')
-                .attr('class', 'politician-label')
-                .attr('x', pathPoints[0].x - 90)
-                .attr('y', pathPoints[0].y)
-                .text(processedPolitician.name)
-                .style('fill', processedPolitician.color);
+                const offset = index * 2;
+                const offsetPathPoints = pathPoints.map(point => ({
+                    x: point.x,
+                    y: point.y + offset
+                }));
+
+                // Draw the path
+                pathGroup.append('path')
+                    .attr('class', 'path')
+                    .attr('d', line(offsetPathPoints))
+                    .style('stroke', politician.color)
+                    .style('opacity', 0.6)
+                    .on('mouseover', function(event) {
+                        // Highlight path
+                        d3.select(this)
+                            .style('opacity', 1)
+                            .style('stroke-width', '3px');
+                        
+                        // Show tooltip
+                        tooltip.transition()
+                            .duration(200)
+                            .style('opacity', .9);
+                            
+                        tooltip.html(`
+                            <strong>${politician.name}</strong><br/>
+                            ${politician.party} - ${politician.state}
+                        `)
+                            .style('left', (event.pageX + 10) + 'px')
+                            .style('top', (event.pageY - 28) + 'px')
+                            .style('color', politician.color);
+                    })
+                    .on('mousemove', function(event) {
+                        // Move tooltip with cursor
+                        tooltip
+                            .style('left', (event.pageX + 10) + 'px')
+                            .style('top', (event.pageY - 28) + 'px');
+                    })
+                    .on('mouseout', function() {
+                        // Reset path highlighting
+                        d3.select(this)
+                            .style('opacity', 0.6)
+                            .style('stroke-width', '1.5px');
+                        
+                        // Hide tooltip
+                        tooltip.transition()
+                            .duration(500)
+                            .style('opacity', 0);
+                    });
+            });
         }).catch(error => {
             console.error('Error loading the JSON file:', error);
         });
