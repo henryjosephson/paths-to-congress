@@ -28,38 +28,26 @@
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-    <script src="js/careerPathProcessor.js"></script>
 </head>
 <body>
     <div id="visualization"></div>
     <script>
-        // Data structure for career stages and their positions
         const stages = [
             // everyone goes through this one
-            {id: 'startNode', x:50, y: 300, label: ''},
+            {id: 'startNode', x:50, y: 250, label: ''},
 
-       // 'prevUnsuccessfulCandidate', 'partyPolitics', 'religion',
-       // 'blueCollarOrServiceJob', 'education',
-       // 'sports', 'media', 'realEstate',
-       // 'lawEnforcement', 'farmingOrRanching', 'businessOrManagement',
-       // 'lobbyingOrPacs', 'localGov', 'stateLeg', 'electedFedOrStateOffice',
-       // 'nonElectedGovJob'
-
-            // Education stages
             {id: 'eliteCollege', x: 100, y: 100, label: 'Elite college'},
             {id: 'noBA', x: 100, y: 200, label: 'No BA'},
             {id: 'privateCollege', x: 100, y: 150, label: 'Private college'},
             {id: 'publicCollege', x: 100, y: 300, label: 'Public college'},
             {id: 'communityCollege', x: 75, y: 350, label: 'Community college'},
-            
-            // Graduate education
+
             {id: 'lawSchool', x: 200, y: 150, label: 'Law school'},
             {id: 'medDegree', x: 210, y: 200, label: 'Medical degree'},
             {id: 'doctorate', x: 220, y: 230, label: 'doctorate'},
             {id: 'mba', x: 200, y: 250, label: 'MBA'},
             {id: 'otherMasters', x: 175, y: 300, label: 'Master\'s'},
-            
-            // Career stages
+
             {id: 'lawyerPrivatePractice', x: 300, y: 100, label: 'Lawyer (private practice)'},
             {id: 'sciOrEng', x: 300, y: 200, label: 'sciOrEng'},
             {id: 'religion', x: 300, y: 250, label: 'religion'},
@@ -75,9 +63,6 @@
             {id: 'farmingOrRanching', x: 350, y: 470, label: 'farmingOrRanching'},
             {id: 'healthcare', x: 350, y: 520, label: 'healthcare'},
 
-
-            
-            // Government/Public service
             {id: 'nonprofitsAndUnions', x: 400, y: 150, label: 'Nonprofits'},
             {id: 'publicLawyerOrJudge', x: 400, y: 300, label: 'Public lawyer'},
             {id: 'nonElectedGovJob', x: 400, y: 230, label: 'Non-elected gov'},
@@ -85,19 +70,15 @@
             {id: 'localGov', x: 400, y: 490, label: 'localGov'},//prevUnsuccessfulCandidate
             {id: 'prevUnsuccessfulCandidate', x: 450, y: 400, label: 'prevUnsuccessfulCandidate'},
 
-            
-            // Final destination
-            {id: 'congress', x: 500, y: 250, label: 'Congress'}
+            {id: 'congressRep', x: 500, y: 300, label: 'House'},
+            {id: 'congressSen', x: 500, y: 200, label: 'Senate'},
         ];
 
         function processCareerStages(politician) {
             const careerStages = [];
             careerStages.push('startNode');
 
-            // Helper function to check if a stage should be included
             const shouldIncludeStage = (value) => {
-                // Check if the value indicates a true stage
-                // This handles both boolean False and string "False"
                 if (value === false || value === "False") {
                     return false;
                 }
@@ -108,21 +89,18 @@
                 return false;
             };
 
-            // Education stages
             if (shouldIncludeStage(politician.privateCollege)) careerStages.push('privateCollege');
             if (shouldIncludeStage(politician.publicCollege)) careerStages.push('publicCollege');
             if (shouldIncludeStage(politician.communityCollege)) careerStages.push('communityCollege');
             if (shouldIncludeStage(politician.eliteCollege)) careerStages.push('eliteCollege');
             if (shouldIncludeStage(politician.noBA)) careerStages.push('noBA');
 
-            // Graduate education
             if (shouldIncludeStage(politician.lawSchool)) careerStages.push('lawSchool');
             if (shouldIncludeStage(politician.mba)) careerStages.push('mba');
             if (shouldIncludeStage(politician.otherMasters)) careerStages.push('otherMasters');
             if (shouldIncludeStage(politician.medDegree)) careerStages.push('medDegree');
             if (shouldIncludeStage(politician.doctorate)) careerStages.push('doctorate');
 
-            // Career stages
             if (shouldIncludeStage(politician.sports)) careerStages.push('sports');
             if (shouldIncludeStage(politician.military)) careerStages.push('military');
             if (shouldIncludeStage(politician.businessOrManagement)) careerStages.push('businessOrManagement');
@@ -136,7 +114,6 @@
             if (shouldIncludeStage(politician.education)) careerStages.push('education');
             if (shouldIncludeStage(politician.farmingOrRanching)) careerStages.push('farmingOrRanching');
 
-            // Government/public service stages
             if (shouldIncludeStage(politician.nonprofitsAndUnions)) careerStages.push('nonprofitsAndUnions');
             if (shouldIncludeStage(politician.publicLawyerOrJudge)) careerStages.push('publicLawyerOrJudge');
             if (shouldIncludeStage(politician.nonElectedGovJob)) careerStages.push('nonElectedGovJob');
@@ -144,8 +121,11 @@
             if (shouldIncludeStage(politician.localGov)) careerStages.push('localGov');
             if (shouldIncludeStage(politician.prevUnsuccessfulCandidate)) careerStages.push('prevUnsuccessfulCandidate');
 
-            // Add Congress as final stage
-            careerStages.push('congress');
+            if (politician.senator === false) {
+                careerStages.push('congressRep');
+            } else {
+                careerStages.push('congressSen');
+            }
 
             // Add debugging log
             console.log('Career Stages Found:', careerStages.map(stage => ({
@@ -162,6 +142,7 @@
                     '#808080', // Gray for Independent
                 party: politician.party,
                 state: politician.state,
+
             };
         }
 
@@ -178,6 +159,24 @@
                 .slice(0, 10);
             
             console.log("Sampled politicians:", sampledPoliticians.map(p => p.name));
+            
+            // Analyze node traffic (how many paths go through each node)
+            const nodeTraffic = new Map();
+            stages.forEach(stage => {
+                nodeTraffic.set(stage.id, {
+                    count: 0,
+                    pathIndices: [] // Keep track of which paths use this node
+                });
+            });
+            
+            // Count paths through each node and record which paths use each node
+            sampledPoliticians.forEach((politician, pathIndex) => {
+                politician.stages.forEach(stageId => {
+                    const traffic = nodeTraffic.get(stageId);
+                    traffic.count++;
+                    traffic.pathIndices.push(pathIndex);
+                });
+            });
             
             // Set up the SVG
             const width = 800;
@@ -202,25 +201,75 @@
                 .style('pointer-events', 'none')
                 .style('box-shadow', '0 2px 4px rgba(0,0,0,0.1)');
 
+            // Function to calculate node radius based on traffic
+            function calculateNodeRadius(stageId) {
+                const baseRadius = 2;
+                const traffic = nodeTraffic.get(stageId);
+                return baseRadius + (traffic.count); // Increase radius by 2px per path
+            }
+
             // Draw nodes
             svg.selectAll('circle')
-                .data(stages)
+                        .data(stages.filter(d => {
+                    // Fix the filter logic - compare the current node's id against multiple values
+                    return !(d.id === 'startNode' || d.id === 'congressRep' || d.id === 'congressSen');
+                }))
                 .enter()
                 .append('circle')
                 .attr('class', 'node')
                 .attr('cx', d => d.x)
                 .attr('cy', d => d.y)
-                .attr('r', 5);
+                .attr('r', d => calculateNodeRadius(d.id))
+                .style('fill', '#fff')
+                .style('stroke', '#000')
+                .style('stroke-width', 1.5)
+                .on('mouseover', function(event, d) {
+                    // Show node traffic in tooltip
+                    tooltip.transition()
+                        .duration(200)
+                        .style('opacity', .9);
+                    tooltip.html(`
+                        <strong>${d.label}</strong><br/>
+                        Paths: ${nodeTraffic.get(d.id).count}
+                    `)
+                        .style('left', (event.pageX + 10) + 'px')
+                        .style('top', (event.pageY - 28) + 'px');
+                })
+                .on('mouseout', function() {
+                    tooltip.transition()
+                        .duration(500)
+                        .style('opacity', 0);
+                });
 
-            // Add node labels
+            // Add node labels with dynamic positioning
             svg.selectAll('.node-label')
-                .data(stages)
+                .data(stages.filter(d => d.id !== 'startNode'))
                 .enter()
                 .append('text')
                 .attr('class', 'node-label')
                 .attr('x', d => d.x)
-                .attr('y', d => d.y - 15)
+                .attr('y', d => d.y - calculateNodeRadius(d.id) - 8) // Position based on node size
+                .attr('text-anchor', 'middle')
                 .text(d => d.label);
+
+            // Function to calculate offset for a specific node and path
+            function calculateOffset(stageId, pathIndex) {
+                if (stageId === 'startNode' || stageId === 'congressRep' || stageId === 'congressSen') {
+                    return 0;
+                }
+                const traffic = nodeTraffic.get(stageId);
+                if (traffic.count === 1) return 0; // No offset needed for single path
+                
+                // Find position of this path in the node's traffic
+                const pathPosition = traffic.pathIndices.indexOf(pathIndex);
+                
+                // Calculate spread based on number of paths
+                const spread = 2; // pixels between paths
+                const totalWidth = (traffic.count - 1) * spread;
+                
+                // Center the spread around the node
+                return (pathPosition * spread) - (totalWidth / 2);
+            }
 
             // Create path generator
             const line = d3.line()
@@ -233,22 +282,21 @@
                 .attr('class', 'paths');
 
             // Draw paths for sampled politicians
-            sampledPoliticians.forEach((politician, index) => {
+            sampledPoliticians.forEach((politician, pathIndex) => {
+                // Get coordinates for each stage with dynamic offsets
                 const pathPoints = politician.stages.map(stageId => {
                     const stage = stages.find(s => s.id === stageId);
-                    return {x: stage.x, y: stage.y};
+                    const offset = calculateOffset(stageId, pathIndex);
+                    return {
+                        x: stage.x,
+                        y: stage.y + offset
+                    };
                 }).sort((a, b) => a.x - b.x);
-
-                const offset = index * 2;
-                const offsetPathPoints = pathPoints.map(point => ({
-                    x: point.x,
-                    y: point.y + offset
-                }));
 
                 // Draw the path
                 pathGroup.append('path')
                     .attr('class', 'path')
-                    .attr('d', line(offsetPathPoints))
+                    .attr('d', line(pathPoints))
                     .style('stroke', politician.color)
                     .style('opacity', 0.6)
                     .on('mouseover', function(event) {
@@ -288,6 +336,10 @@
                             .style('opacity', 0);
                     });
             });
+
+            // Debug: log node traffic
+            console.log("Node traffic:", Object.fromEntries(nodeTraffic));
+            
         }).catch(error => {
             console.error('Error loading the JSON file:', error);
         });
