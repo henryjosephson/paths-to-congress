@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Congressional Career Paths</title>
+    <style>
+        .path {
+            fill: none;
+            stroke-width: 2;
+            opacity: 0.7;
+        }
+
+        .node {
+            fill: white;
+            stroke: black;
+            stroke-width: 1;
+        }
+
+        .node-label {
+            font-size: 12px;
+            font-family: Arial, sans-serif;
+            text-anchor: middle;
+        }
+
+        .politician-label {
+            font-size: 12px;
+            font-family: Arial, sans-serif;
+            text-anchor: start;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+</head>
+<body>
+    <div id="visualization"></div>
+    <script>
+        // Data structure for career stages and their positions
+        const stages = [
+            // everyone goes through this one
+            {id: 'startNode', x:50, y: 300, label: ''},
+
+            // Education stages
+            {id: 'privateCollege', x: 100, y: 150, label: 'Private college'},
+            {id: 'publicCollege', x: 100, y: 300, label: 'Public college'},
+            {id: 'communityCollege', x: 100, y: 450, label: 'Community college'},
+            
+            // Graduate education
+            {id: 'lawSchool', x: 200, y: 150, label: 'Law school'},
+            {id: 'mba', x: 200, y: 250, label: 'MBA'},
+            {id: 'otherMasters', x: 200, y: 350, label: 'Master\'s'},
+            
+            // Career stages
+            {id: 'sports', x: 300, y: 100, label: 'Sports'},
+            {id: 'military', x: 270, y: 220, label: 'Military'},
+            {id: 'businessOrManagement', x: 300, y: 300, label: 'Business'},
+            {id: 'media', x: 300, y: 400, label: 'Media'},
+            {id: 'realEstate', x: 300, y: 500, label: 'Real estate'},
+            
+            // Government/Public service
+            {id: 'nonprofitsAndUnions', x: 400, y: 150, label: 'Nonprofits'},
+            {id: 'publicLawyerOrJudge', x: 400, y: 300, label: 'Public lawyer'},
+            {id: 'nonElectedGovJob', x: 400, y: 450, label: 'Non-elected gov'},
+            
+            // Final destination
+            {id: 'congress', x: 500, y: 250, label: 'Congress'}
+        ];
+
+        // Politicians data
+        const politicians = [
+            {
+                id: 8,
+                name: "Burgess Owens",
+                stages: ['startNode','privateCollege', 'sports', 'businessOrManagement', 'nonprofitsAndUnions', 'congress'],
+                color: '#1f77b4'
+            },
+            // {
+            //     id: 62,
+            //     name: "Todd Young",
+            //     stages: ['startNode','publicCollege', 'military', 'mba', 'otherMasters', 'lawSchool', 'publicLawyerOrJudge', 'nonElectedGovJob', 'congress'],
+            //     color: '#ff7f0e'
+            // },
+            // {
+            //     id: 83,
+            //     name: "Mark Alford",
+            //     stages: ['startNode','communityCollege', 'publicCollege', 'media', 'realEstate', 'businessOrManagement', 'congress'],
+            //     color: '#2ca02c'
+            // }
+        ];
+
+        // Set up the SVG
+        const width = 800;
+        const height = 600;
+        const margin = {top: 50, right: 100, bottom: 50, left: 100};
+
+        const svg = d3.select('#visualization')
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height);
+
+        // Draw nodes
+        svg.selectAll('circle')
+            .data(stages)
+            .enter()
+            .append('circle')
+            .attr('class', 'node')
+            .attr('cx', d => d.x)
+            .attr('cy', d => d.y)
+            .attr('r', 5);
+
+        // Add node labels
+        svg.selectAll('.node-label')
+            .data(stages)
+            .enter()
+            .append('text')
+            .attr('class', 'node-label')
+            .attr('x', d => d.x)
+            .attr('y', d => d.y - 15)
+            .text(d => d.label);
+
+        // Create paths
+        const line = d3.line()
+            .x(d => d.x)
+            .y(d => d.y)
+            .curve(d3.curveCatmullRom.alpha(0.5));
+
+        politicians.forEach(politician => {
+            // Get coordinates for each stage in the politician's career
+            const pathPoints = politician.stages.map(stageId => {
+                const stage = stages.find(s => s.id === stageId);
+                return {x: stage.x, y: stage.y};
+            });
+
+            // Draw the path
+            svg.append('path')
+                .attr('class', 'path')
+                .attr('d', line(pathPoints))
+                .style('stroke', politician.color);
+
+            // Add politician's name at the start of their path
+            svg.append('text')
+                .attr('class', 'politician-label')
+                .attr('x', pathPoints[0].x - 90)
+                .attr('y', pathPoints[0].y)
+                .text(politician.name)
+                .style('fill', politician.color);
+        });
+    </script>
+</body>
+</html>
