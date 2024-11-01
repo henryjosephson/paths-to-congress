@@ -94,16 +94,16 @@
                 {id: 'eliteCollege', x:  width * 0.1, y: height * 0.2, label: 'Elite college'},
                 {id: 'noBA', x:  width * 0.1, y: height * 0.4, label: 'No BA'},
                 {id: 'privateCollege', x:  width * 0.1, y: height * 0.3, label: 'Private college'},
-                {id: 'publicCollege', x: width * 0.1, y: height * 0.6, label: 'Public college'},
-                {id: 'communityCollege', x: width * 0.075, y: height * 0.7, label: 'Community college'},
+                {id: 'publicCollege', x: width * 0.14, y: height * 0.6, label: 'Public college'},
+                {id: 'communityCollege', x: width * 0.075, y: height * 0.6, label: 'Community college'},
 
-                {id: 'lawSchool', x:  width * 0.25, y: height * 0.3, label: 'Law school'},
+                {id: 'lawSchool', x:  width * 0.25, y: height * 0.25, label: 'Law school'},
                 {id: 'medDegree', x:  width * 0.21, y: height * 0.4, label: 'Medical degree'},
                 {id: 'doctorate', x:  width * 0.22, y: height * 0.46, label: 'doctorate'},
                 {id: 'mba', x:  width * 0.2, y: height * 0.5, label: 'MBA'},
-                {id: 'otherMasters', x:  width * 0.175, y: height * 0.6, label: 'Master\'s'},
+                {id: 'otherMasters', x:  width * 0.175, y: height * 0.4, label: 'Master\'s'},
 
-                {id: 'lawyerPrivatePractice', x:  width * 0.3, y: height * 0.2, label: 'Lawyer (private practice)'},
+                {id: 'lawyerPrivatePractice', x:  width * 0.4, y: height * 0.1, label: 'Lawyer (private practice)'},
                 {id: 'sciOrEng', x:  width * 0.3, y: height * 0.4, label: 'sciOrEng'},
                 {id: 'religion', x:  width * 0.3, y: height * 0.5, label: 'religion'},
                 {id: 'blueCollarOrServiceJob', x:  width * 0.3, y: height * 0.6, label: 'blueCollarOrServiceJob'},
@@ -111,22 +111,22 @@
                 {id: 'military', x:  width * 0.27, y: height * 0.44, label: 'Military'},
                 {id: 'businessOrManagement', x:  width * 0.3, y: height * 0.9, label: 'Business'},
                 {id: 'media', x:  width * 0.3, y: height * 0.8, label: 'Media'},
-                {id: 'realEstate', x:  width * 0.3, y: height * 1, label: 'Real estate'},
+                {id: 'realEstate', x:  width * 0.4, y: height * 0.9, label: 'Real estate'},
 
-                {id: 'healthcare', x:  width * 0.35, y: height * 0.2, label: 'healthcare'},
-                {id: 'education', x:  width * 0.35, y: height * 0.4, label: 'education'},
-                {id: 'farmingOrRanching', x:  width * 0.35, y: height * 0.94, label: 'farmingOrRanching'},
-                {id: 'healthcare', x:  width * 0.35, y: height * 0.8, label: 'healthcare'},
+                {id: 'healthcare', x:  width * 0.5, y: height * 0.2, label: 'healthcare'},
+                {id: 'education', x:  width * 0.5, y: height * 0.4, label: 'education'},
+                {id: 'farmingOrRanching', x:  width * 0.5, y: height * 0.94, label: 'farmingOrRanching'},
+                {id: 'healthcare', x:  width * 0.5, y: height * 0.8, label: 'healthcare'},
 
-                {id: 'nonprofitsAndUnions', x:  width * 0.4, y: height * 0.3, label: 'Nonprofits'},
-                {id: 'publicLawyerOrJudge', x:  width * 0.4, y: height * 0.6, label: 'Public lawyer'},
-                {id: 'nonElectedGovJob', x:  width * 0.4, y: height * 0.46, label: 'Non-elected gov'},
-                {id: 'stateLeg', x:  width * 0.4, y: height * 0.7, label: 'stateLeg'},
-                {id: 'localGov', x:  width * 0.4, y: height * 0.96, label: 'localGov'},//prevUnsuccessfulCandidate
-                {id: 'prevUnsuccessfulCandidate', x:  width * 0.45, y: height * 0.8, label: 'prevUnsuccessfulCandidate'},
+                {id: 'nonprofitsAndUnions', x:  width * 0.7, y: height * 0.3, label: 'Nonprofits'},
+                {id: 'publicLawyerOrJudge', x:  width * 0.7, y: height * 0.2, label: 'Public lawyer'},
+                {id: 'nonElectedGovJob', x:  width * 0.7, y: height * 0.46, label: 'Non-elected gov'},
+                {id: 'stateLeg', x:  width * 0.86, y: height * 0.5, label: 'stateLeg'},
+                {id: 'localGov', x:  width * 0.8, y: height * 0.9, label: 'localGov'},//prevUnsuccessfulCandidate
+                {id: 'prevUnsuccessfulCandidate', x:  width * 0.7, y: height * 0.75, label: 'prevUnsuccessfulCandidate'},
 
-                {id: 'congressRep', x:  width * 0.9, y: height * 0.6, label: 'House'},
-                {id: 'congressSen', x:  width * 0.9, y: height * 0.4, label: 'Senate'},
+                {id: 'congressRep', x:  width * 0.95, y: height * 0.6, label: 'House'},
+                {id: 'congressSen', x:  width * 0.95, y: height * 0.4, label: 'Senate'},
             ];
         }
 
@@ -209,12 +209,12 @@
                 const allPoliticians = Object.values(data).map(processCareerStages);
                 const sampledPoliticians = allPoliticians
                     .sort(() => 0.5 - Math.random())
-                    .slice(0, 10);
+                    .slice(0, 100);
 
                 // Calculate node traffic
                 const nodeTraffic = new Map(stages.map(stage => [
                     stage.id,
-                    { count: 0, pathIndices: [] }
+                    { count: 0, pathIndices: [], stageId: stage.id }
                 ]));
 
                 sampledPoliticians.forEach((politician, pathIndex) => {
@@ -240,7 +240,10 @@
                         .attr('class', 'node')
                         .attr('cx', d => d.x)
                         .attr('cy', d => d.y)
-                        .attr('r', d => 2 + (nodeTraffic.get(d.id)?.count || 0))
+                        .attr('r', d => {
+                            const traffic = nodeTraffic.get(d.id)?.count || 0;
+                            return traffic / 2;
+                        })
                         .style('fill', '#fff')
                         .style('stroke', '#000')
                         .style('stroke-width', 1.5)
@@ -279,6 +282,7 @@
 
                         svg.append('path')
                             .attr('class', 'path')
+                            .datum(politician)
                             .attr('d', line(pathPoints))
                             .style('stroke', politician.color)
                             .style('opacity', 0.6)
@@ -295,6 +299,17 @@
         // Event handlers
         function handleNodeMouseOver(event, d) {
             const traffic = nodeTraffic.get(d.id);
+            svg.selectAll('.path')
+                .style('opacity', pathElement => {
+                    const politician = d3.select(pathElement).datum();
+                    return politician.stages.includes(d.id) ? 1 : 0.1;
+                    // const pathIndex = sampledPoliticians.indexOf(path);
+                    // return traffic.pathIndices.includes(pathIndex) ? '3px' : '1.5px';
+                })
+                .style('stroke-width', pathElement => {
+                    const politician = d3.select(pathElement).datum();
+                    return politician.stages.includes(d.id) ? '3px' : '1.5px';
+                });
             tooltip.transition()
                 .duration(200)
                 .style('opacity', 0.9);
@@ -307,6 +322,10 @@
         }
 
         function handleNodeMouseOut() {
+            svg.selectAll('.path')
+                .style('opacity',0.6)
+                .style('stroke-width','1.5px');
+
             tooltip.transition()
                 .duration(500)
                 .style('opacity', 0);
@@ -340,11 +359,21 @@
         }
 
         function calculateOffset(traffic, pathIndex) {
+            if (['startNode','congressRep','congressSen'].includes(traffic.stageId)) {
+                return 0;
+            }
+
             if (traffic.count === 1) return 0;
             const pathPosition = traffic.pathIndices.indexOf(pathIndex);
-            const spread = 2;
+            const spread = 1;
             const totalWidth = (traffic.count - 1) * spread;
-            return (pathPosition * spread) - (totalWidth / 2);
+
+            const allOffsets = traffic.pathIndices.map((_, index) =>
+                (index * spread) - (totalWidth / 2)
+            );
+            const meanOffset = allOffsets.reduce((sum,offset) => sum + offset, 0) / allOffsets.length;
+            
+            return ((pathPosition * spread) - (totalWidth )) - meanOffset;
         }
 
 
