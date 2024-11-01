@@ -1,3 +1,13 @@
+trying to reproduce https://www.nytimes.com/interactive/2019/01/26/opinion/sunday/paths-to-congress.html
+
+## Usage
+
+I'm not uploading the data to github, because it would be too big.
+
+Luckily, you can download and clean the data I'm using by `cd`ing to the project root (if you're reading this, you're probably already there), then running `bash src/process_data/setup_data.sh`.
+
+From there, you can then open `main.html` with your favorite live server extension (I like [this one](https://open-vsx.org/extension/ms-vscode/live-server)) and you're all set.
+
 ## todos:
 [ ] rearrange dots for better spacing
 [ ] add background lines
