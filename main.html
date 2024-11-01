@@ -1,20 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Congressional Career Paths</title>
     <style>
+        /* Reset default margins and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Ensure the body takes full viewport height */
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Style the visualization container */
+        #visualization {
+            width: 100%;
+            height: 100%;
+            background-color: white;
+        }
+
+        /* Path styles */
         .path {
             fill: none;
             stroke-width: 2;
             opacity: 0.7;
         }
 
+        /* Node styles */
         .node {
             fill: white;
             stroke: black;
             stroke-width: 1;
         }
 
+        /* Label styles */
         .node-label {
             font-size: 12px;
             font-family: Arial, sans-serif;
@@ -26,68 +52,110 @@
             font-family: Arial, sans-serif;
             text-anchor: start;
         }
+
+        /* Tooltip styles */
+        .tooltip {
+            position: absolute;
+            padding: 8px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            pointer-events: none;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 </head>
 <body>
     <div id="visualization"></div>
     <script>
-        const stages = [
-            // everyone goes through this one
-            {id: 'startNode', x:50, y: 250, label: ''},
+        // Constants and setup
+        const width = window.innerWidth;
+        const height = window.innerHeight;
 
-            {id: 'eliteCollege', x: 100, y: 100, label: 'Elite college'},
-            {id: 'noBA', x: 100, y: 200, label: 'No BA'},
-            {id: 'privateCollege', x: 100, y: 150, label: 'Private college'},
-            {id: 'publicCollege', x: 100, y: 300, label: 'Public college'},
-            {id: 'communityCollege', x: 75, y: 350, label: 'Community college'},
+        // Create the SVG container first
+        const svg = d3.select('#visualization')
+            .append('svg')
+            .style('width', '100%')
+            .style('height', '100vh')
+            .attr('viewBox', `0 0 ${width} ${height}`)
+            .attr('preserveAspectRatio', 'xMidYMid meet');
 
-            {id: 'lawSchool', x: 200, y: 150, label: 'Law school'},
-            {id: 'medDegree', x: 210, y: 200, label: 'Medical degree'},
-            {id: 'doctorate', x: 220, y: 230, label: 'doctorate'},
-            {id: 'mba', x: 200, y: 250, label: 'MBA'},
-            {id: 'otherMasters', x: 175, y: 300, label: 'Master\'s'},
+        function calculateStagePositions() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
 
-            {id: 'lawyerPrivatePractice', x: 300, y: 100, label: 'Lawyer (private practice)'},
-            {id: 'sciOrEng', x: 300, y: 200, label: 'sciOrEng'},
-            {id: 'religion', x: 300, y: 250, label: 'religion'},
-            {id: 'blueCollarOrServiceJob', x: 300, y: 300, label: 'blueCollarOrServiceJob'},
-            {id: 'sports', x: 300, y: 350, label: 'Sports'},
-            {id: 'military', x: 270, y: 220, label: 'Military'},
-            {id: 'businessOrManagement', x: 300, y: 450, label: 'Business'},
-            {id: 'media', x: 300, y: 400, label: 'Media'},
-            {id: 'realEstate', x: 300, y: 500, label: 'Real estate'},
+            return [
+                // everyone goes through this one
+                {id: 'startNode', x: width * 0.05, y: height * 0.5, label: ''},
 
-            {id: 'healthcare', x: 350, y: 100, label: 'healthcare'},
-            {id: 'education', x: 350, y: 200, label: 'education'},
-            {id: 'farmingOrRanching', x: 350, y: 470, label: 'farmingOrRanching'},
-            {id: 'healthcare', x: 350, y: 520, label: 'healthcare'},
+                {id: 'eliteCollege', x:  width * 0.1, y: height * 0.2, label: 'Elite college'},
+                {id: 'noBA', x:  width * 0.1, y: height * 0.4, label: 'No BA'},
+                {id: 'privateCollege', x:  width * 0.1, y: height * 0.3, label: 'Private college'},
+                {id: 'publicCollege', x: width * 0.1, y: height * 0.6, label: 'Public college'},
+                {id: 'communityCollege', x: width * 0.075, y: height * 0.7, label: 'Community college'},
 
-            {id: 'nonprofitsAndUnions', x: 400, y: 150, label: 'Nonprofits'},
-            {id: 'publicLawyerOrJudge', x: 400, y: 300, label: 'Public lawyer'},
-            {id: 'nonElectedGovJob', x: 400, y: 230, label: 'Non-elected gov'},
-            {id: 'stateLeg', x: 400, y: 350, label: 'stateLeg'},
-            {id: 'localGov', x: 400, y: 490, label: 'localGov'},//prevUnsuccessfulCandidate
-            {id: 'prevUnsuccessfulCandidate', x: 450, y: 400, label: 'prevUnsuccessfulCandidate'},
+                {id: 'lawSchool', x:  width * 0.25, y: height * 0.3, label: 'Law school'},
+                {id: 'medDegree', x:  width * 0.21, y: height * 0.4, label: 'Medical degree'},
+                {id: 'doctorate', x:  width * 0.22, y: height * 0.46, label: 'doctorate'},
+                {id: 'mba', x:  width * 0.2, y: height * 0.5, label: 'MBA'},
+                {id: 'otherMasters', x:  width * 0.175, y: height * 0.6, label: 'Master\'s'},
 
-            {id: 'congressRep', x: 500, y: 300, label: 'House'},
-            {id: 'congressSen', x: 500, y: 200, label: 'Senate'},
-        ];
+                {id: 'lawyerPrivatePractice', x:  width * 0.3, y: height * 0.2, label: 'Lawyer (private practice)'},
+                {id: 'sciOrEng', x:  width * 0.3, y: height * 0.4, label: 'sciOrEng'},
+                {id: 'religion', x:  width * 0.3, y: height * 0.5, label: 'religion'},
+                {id: 'blueCollarOrServiceJob', x:  width * 0.3, y: height * 0.6, label: 'blueCollarOrServiceJob'},
+                {id: 'sports', x:  width * 0.3, y: height * 0.7, label: 'Sports'},
+                {id: 'military', x:  width * 0.27, y: height * 0.44, label: 'Military'},
+                {id: 'businessOrManagement', x:  width * 0.3, y: height * 0.9, label: 'Business'},
+                {id: 'media', x:  width * 0.3, y: height * 0.8, label: 'Media'},
+                {id: 'realEstate', x:  width * 0.3, y: height * 1, label: 'Real estate'},
 
+                {id: 'healthcare', x:  width * 0.35, y: height * 0.2, label: 'healthcare'},
+                {id: 'education', x:  width * 0.35, y: height * 0.4, label: 'education'},
+                {id: 'farmingOrRanching', x:  width * 0.35, y: height * 0.94, label: 'farmingOrRanching'},
+                {id: 'healthcare', x:  width * 0.35, y: height * 0.8, label: 'healthcare'},
+
+                {id: 'nonprofitsAndUnions', x:  width * 0.4, y: height * 0.3, label: 'Nonprofits'},
+                {id: 'publicLawyerOrJudge', x:  width * 0.4, y: height * 0.6, label: 'Public lawyer'},
+                {id: 'nonElectedGovJob', x:  width * 0.4, y: height * 0.46, label: 'Non-elected gov'},
+                {id: 'stateLeg', x:  width * 0.4, y: height * 0.7, label: 'stateLeg'},
+                {id: 'localGov', x:  width * 0.4, y: height * 0.96, label: 'localGov'},//prevUnsuccessfulCandidate
+                {id: 'prevUnsuccessfulCandidate', x:  width * 0.45, y: height * 0.8, label: 'prevUnsuccessfulCandidate'},
+
+                {id: 'congressRep', x:  width * 0.9, y: height * 0.6, label: 'House'},
+                {id: 'congressSen', x:  width * 0.9, y: height * 0.4, label: 'Senate'},
+            ];
+        }
+
+        // Initialize stages
+        let stages = calculateStagePositions();
+
+        // Create tooltip div before using it
+        const tooltip = d3.select('#visualization')
+            .append('div')
+            .attr('class', 'tooltip')
+            .style('opacity', 0)
+            .style('position', 'absolute')
+            .style('background', 'white')
+            .style('border', '1px solid #ddd')
+            .style('border-radius', '4px')
+            .style('padding', '8px')
+            .style('pointer-events', 'none')
+            .style('box-shadow', '0 2px 4px rgba(0,0,0,0.1)');
+
+        // Process politicians data
         function processCareerStages(politician) {
-            const careerStages = [];
-            careerStages.push('startNode');
-
+            const careerStages = ['startNode'];
+            
             const shouldIncludeStage = (value) => {
-                if (value === false || value === "False") {
-                    return false;
-                }
-                // If it's a non-empty string (except "False"), it's a valid stage
-                if (typeof value === "string" && value.trim().length > 0) {
-                    return true;
-                }
+                if (value === true || value === "True") return true;
+                if (typeof value === "string" && value.trim().length > 0 && value !== "False") return true;
                 return false;
             };
+
 
             if (shouldIncludeStage(politician.privateCollege)) careerStages.push('privateCollege');
             if (shouldIncludeStage(politician.publicCollege)) careerStages.push('publicCollege');
@@ -121,227 +189,165 @@
             if (shouldIncludeStage(politician.localGov)) careerStages.push('localGov');
             if (shouldIncludeStage(politician.prevUnsuccessfulCandidate)) careerStages.push('prevUnsuccessfulCandidate');
 
-            if (politician.senator === false) {
-                careerStages.push('congressRep');
-            } else {
-                careerStages.push('congressSen');
-            }
-
-            // Add debugging log
-            console.log('Career Stages Found:', careerStages.map(stage => ({
-                stage,
-                value: politician[stage] || 'N/A'
-            })));
+            careerStages.push(politician.senator ? 'congressSen' : 'congressRep');
 
             return {
                 id: politician.id,
                 name: `${politician.givenName} ${politician.familyName}`,
                 stages: careerStages,
-                color: politician.party === 'D' ? '#0052A5' : // Democratic blue
-                    politician.party === 'R' ? '#CC0000' : // Republican red
-                    '#808080', // Gray for Independent
+                color: politician.party === 'D' ? '#0052A5' : 
+                    politician.party === 'R' ? '#CC0000' : 
+                    '#808080',
                 party: politician.party,
                 state: politician.state,
-
             };
         }
 
-        // Fetch and process the JSON data
-        d3.json('../data/118-processed-bios.json').then(data => {
-            // Process all politicians and randomly select 5
-            const allPoliticians = Object.values(data).map(politician => 
-                processCareerStages(politician)
-            );
-            
-            // Randomly sample 5 politicians
-            const sampledPoliticians = allPoliticians
-                .sort(() => 0.5 - Math.random())
-                .slice(0, 10);
-            
-            console.log("Sampled politicians:", sampledPoliticians.map(p => p.name));
-            
-            // Analyze node traffic (how many paths go through each node)
-            const nodeTraffic = new Map();
-            stages.forEach(stage => {
-                nodeTraffic.set(stage.id, {
-                    count: 0,
-                    pathIndices: [] // Keep track of which paths use this node
-                });
-            });
-            
-            // Count paths through each node and record which paths use each node
-            sampledPoliticians.forEach((politician, pathIndex) => {
-                politician.stages.forEach(stageId => {
-                    const traffic = nodeTraffic.get(stageId);
-                    traffic.count++;
-                    traffic.pathIndices.push(pathIndex);
-                });
-            });
-            
-            // Set up the SVG
-            const width = 1600;
-            const height = 1200;
+        // Main data loading and visualization
+        d3.json('../data/118-processed-bios.json')
+            .then(data => {
+                const allPoliticians = Object.values(data).map(processCareerStages);
+                const sampledPoliticians = allPoliticians
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, 10);
 
-            const svg = d3.select('#visualization')
-                .append('svg')
-                .attr('width', width)
-                .attr('height', height);
+                // Calculate node traffic
+                const nodeTraffic = new Map(stages.map(stage => [
+                    stage.id,
+                    { count: 0, pathIndices: [] }
+                ]));
 
-            // Create tooltip div
-            const tooltip = d3.select('#visualization')
-                .append('div')
-                .attr('class', 'tooltip')
-                .style('opacity', 0)
-                .style('position', 'absolute')
-                .style('background', 'white')
-                .style('border', '1px solid #ddd')
-                .style('border-radius', '4px')
-                .style('padding', '8px')
-                .style('pointer-events', 'none')
-                .style('box-shadow', '0 2px 4px rgba(0,0,0,0.1)');
-
-            // Function to calculate node radius based on traffic
-            function calculateNodeRadius(stageId) {
-                const baseRadius = 2;
-                const traffic = nodeTraffic.get(stageId);
-                return baseRadius + (traffic.count); // Increase radius by 2px per path
-            }
-
-            // Draw nodes
-            svg.selectAll('circle')
-                        .data(stages.filter(d => {
-                    // Fix the filter logic - compare the current node's id against multiple values
-                    return !(d.id === 'startNode' || d.id === 'congressRep' || d.id === 'congressSen');
-                }))
-                .enter()
-                .append('circle')
-                .attr('class', 'node')
-                .attr('cx', d => d.x)
-                .attr('cy', d => d.y)
-                .attr('r', d => calculateNodeRadius(d.id))
-                .style('fill', '#fff')
-                .style('stroke', '#000')
-                .style('stroke-width', 1.5)
-                .on('mouseover', function(event, d) {
-                    // Show node traffic in tooltip
-                    tooltip.transition()
-                        .duration(200)
-                        .style('opacity', .9);
-                    tooltip.html(`
-                        <strong>${d.label}</strong><br/>
-                        Paths: ${nodeTraffic.get(d.id).count}
-                    `)
-                        .style('left', (event.pageX + 10) + 'px')
-                        .style('top', (event.pageY - 28) + 'px');
-                })
-                .on('mouseout', function() {
-                    tooltip.transition()
-                        .duration(500)
-                        .style('opacity', 0);
-                });
-
-            // Add node labels with dynamic positioning
-            svg.selectAll('.node-label')
-                .data(stages.filter(d => d.id !== 'startNode'))
-                .enter()
-                .append('text')
-                .attr('class', 'node-label')
-                .attr('x', d => d.x)
-                .attr('y', d => d.y - calculateNodeRadius(d.id) - 8) // Position based on node size
-                .attr('text-anchor', 'middle')
-                .text(d => d.label);
-
-            // Function to calculate offset for a specific node and path
-            function calculateOffset(stageId, pathIndex) {
-                if (stageId === 'startNode' || stageId === 'congressRep' || stageId === 'congressSen') {
-                    return 0;
-                }
-                const traffic = nodeTraffic.get(stageId);
-                if (traffic.count === 1) return 0; // No offset needed for single path
-                
-                // Find position of this path in the node's traffic
-                const pathPosition = traffic.pathIndices.indexOf(pathIndex);
-                
-                // Calculate spread based on number of paths
-                const spread = 2; // pixels between paths
-                const totalWidth = (traffic.count - 1) * spread;
-                
-                // Center the spread around the node
-                return (pathPosition * spread) - (totalWidth / 2);
-            }
-
-            // Create path generator
-            const line = d3.line()
-                .x(d => d.x)
-                .y(d => d.y)
-                .curve(d3.curveCatmullRom.alpha(0.5));
-
-            // Create a group for all paths
-            const pathGroup = svg.append('g')
-                .attr('class', 'paths');
-
-            // Draw paths for sampled politicians
-            sampledPoliticians.forEach((politician, pathIndex) => {
-                // Get coordinates for each stage with dynamic offsets
-                const pathPoints = politician.stages.map(stageId => {
-                    const stage = stages.find(s => s.id === stageId);
-                    const offset = calculateOffset(stageId, pathIndex);
-                    return {
-                        x: stage.x,
-                        y: stage.y + offset
-                    };
-                }).sort((a, b) => a.x - b.x);
-
-                // Draw the path
-                pathGroup.append('path')
-                    .attr('class', 'path')
-                    .attr('d', line(pathPoints))
-                    .style('stroke', politician.color)
-                    .style('opacity', 0.6)
-                    .on('mouseover', function(event) {
-                        // Highlight path
-                        d3.select(this)
-                            .style('opacity', 1)
-                            .style('stroke-width', '3px');
-                        
-                        // Show tooltip
-                        tooltip.transition()
-                            .duration(200)
-                            .style('opacity', .9);
-                            
-                        tooltip.html(`
-                            <strong>${politician.name}</strong><br/>
-                            ${politician.party} - ${politician.state}
-                        `)
-                            .style('left', (event.pageX + 10) + 'px')
-                            .style('top', (event.pageY - 28) + 'px')
-                            .style('color', politician.color);
-                    })
-                    .on('mousemove', function(event) {
-                        // Move tooltip with cursor
-                        tooltip
-                            .style('left', (event.pageX + 10) + 'px')
-                            .style('top', (event.pageY - 28) + 'px');
-                    })
-                    .on('mouseout', function() {
-                        // Reset path highlighting
-                        d3.select(this)
-                            .style('opacity', 0.6)
-                            .style('stroke-width', '1.5px');
-                        
-                        // Hide tooltip
-                        tooltip.transition()
-                            .duration(500)
-                            .style('opacity', 0);
+                sampledPoliticians.forEach((politician, pathIndex) => {
+                    politician.stages.forEach(stageId => {
+                        const traffic = nodeTraffic.get(stageId);
+                        if (traffic) {
+                            traffic.count++;
+                            traffic.pathIndices.push(pathIndex);
+                        }
                     });
+                });
+
+                // Draw visualization elements
+                drawNodes();
+                drawPaths();
+
+                function drawNodes() {
+                    // Draw circles for nodes
+                    svg.selectAll('circle')
+                        .data(stages.filter(d => !['startNode', 'congressRep', 'congressSen'].includes(d.id)))
+                        .enter()
+                        .append('circle')
+                        .attr('class', 'node')
+                        .attr('cx', d => d.x)
+                        .attr('cy', d => d.y)
+                        .attr('r', d => 2 + (nodeTraffic.get(d.id)?.count || 0))
+                        .style('fill', '#fff')
+                        .style('stroke', '#000')
+                        .style('stroke-width', 1.5)
+                        .on('mouseover', handleNodeMouseOver)
+                        .on('mouseout', handleNodeMouseOut);
+
+                    // Add labels
+                    svg.selectAll('.node-label')
+                        .data(stages.filter(d => d.id !== 'startNode'))
+                        .enter()
+                        .append('text')
+                        .attr('class', 'node-label')
+                        .attr('x', d => d.x)
+                        .attr('y', d => d.y - (2 + (nodeTraffic.get(d.id)?.count || 0)) - 8)
+                        .attr('text-anchor', 'middle')
+                        .text(d => d.label);
+                }
+
+                function drawPaths() {
+                    const line = d3.line()
+                        .x(d => d.x)
+                        .y(d => d.y)
+                        .curve(d3.curveCatmullRom.alpha(0.5));
+
+                    sampledPoliticians.forEach((politician, pathIndex) => {
+                        const pathPoints = politician.stages
+                            .map(stageId => {
+                                const stage = stages.find(s => s.id === stageId);
+                                if (!stage) return null;
+                                const traffic = nodeTraffic.get(stageId);
+                                const offset = traffic ? calculateOffset(traffic, pathIndex) : 0;
+                                return { x: stage.x, y: stage.y + offset };
+                            })
+                            .filter(point => point !== null)
+                            .sort((a, b) => a.x - b.x);
+
+                        svg.append('path')
+                            .attr('class', 'path')
+                            .attr('d', line(pathPoints))
+                            .style('stroke', politician.color)
+                            .style('opacity', 0.6)
+                            .style('stroke-width', '1.5px')
+                            .on('mouseover', (event) => handlePathMouseOver(event, politician))
+                            .on('mouseout', handlePathMouseOut);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error loading the JSON file:', error);
             });
 
-            // Debug: log node traffic
-            console.log("Node traffic:", Object.fromEntries(nodeTraffic));
+        // Event handlers
+        function handleNodeMouseOver(event, d) {
+            const traffic = nodeTraffic.get(d.id);
+            tooltip.transition()
+                .duration(200)
+                .style('opacity', 0.9);
+            tooltip.html(`
+                <strong>${d.label}</strong><br/>
+                Paths: ${traffic ? traffic.count : 0}
+            `)
+                .style('left', (event.pageX + 10) + 'px')
+                .style('top', (event.pageY - 28) + 'px');
+        }
+
+        function handleNodeMouseOut() {
+            tooltip.transition()
+                .duration(500)
+                .style('opacity', 0);
+        }
+
+        function handlePathMouseOver(event, politician) {
+            d3.select(event.target)
+                .style('opacity', 1)
+                .style('stroke-width', '3px');
             
-        }).catch(error => {
-            console.error('Error loading the JSON file:', error);
-        });
+            tooltip.transition()
+                .duration(200)
+                .style('opacity', 0.9);
+            tooltip.html(`
+                <strong>${politician.name}</strong><br/>
+                ${politician.party} - ${politician.state}
+            `)
+                .style('left', (event.pageX + 10) + 'px')
+                .style('top', (event.pageY - 28) + 'px')
+                .style('color', politician.color);
+        }
+
+        function handlePathMouseOut(event) {
+            d3.select(event.target)
+                .style('opacity', 0.6)
+                .style('stroke-width', '1.5px');
+            
+            tooltip.transition()
+                .duration(500)
+                .style('opacity', 0);
+        }
+
+        function calculateOffset(traffic, pathIndex) {
+            if (traffic.count === 1) return 0;
+            const pathPosition = traffic.pathIndices.indexOf(pathIndex);
+            const spread = 2;
+            const totalWidth = (traffic.count - 1) * spread;
+            return (pathPosition * spread) - (totalWidth / 2);
+        }
+
+
     </script>
 </body>
 </html>
