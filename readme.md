@@ -22,5 +22,5 @@ From there, you can then open `main.html` with your favorite live server extensi
 - [ ] decrease spacing and path thickness so full version doesn't take up the entire screen 
 - [ ] let you search by individual, party, state
   
-- [ ] build pipeline to let claude parse bios into the relevant json format (important for going through the thousands of prev years)
+- [ ] build pipeline to let claude parse bios into the relevant json format (important for going through the thousands of congresspeople from prev years)
 
