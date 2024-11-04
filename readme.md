@@ -21,3 +21,5 @@ From there, you can then open `main.html` with your favorite live server extensi
 - [x] make circle size grow dynamically with the number of paths that go through it
 - [x]  make it so that there's a `house` end node and a `senate` end node
 - [ ] add a dropdown menu to let you choose a box
+  
+- [ ] get claude to parse bios into the relevant json format
