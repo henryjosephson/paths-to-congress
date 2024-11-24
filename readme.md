@@ -16,7 +16,7 @@ From there, you can then open `main.html` with your favorite live server extensi
 - [ ] add background lines
 - [ ]  make it so that when you hover over a path, you highlight all the (labeled) nodes that the path goes through 
   - [ ] probably means making all extant paths dimmer?
-- [ ] add invisible control nodes to reduce path overlap
+- [ ] add invisible control nodes ßto reduce path overlap
 - [ ] give all the democrats positive offsets and the republicans negative offsets to make the sorting look nicer at each node
 - [ ] get the paths to actually center at each node (this might have to be manual-er in final product — e.g. `customPublicCollegeCirclePlacement`)
 - [ ] decrease spacing and path thickness so full version doesn't take up the entire screen 
