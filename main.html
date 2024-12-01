@@ -91,43 +91,55 @@
                 // everyone goes through this one
                 {id: 'startNode', x: width * 0.05, y: height * 0.5, label: ''},
 
-                {id: 'eliteCollege', x:  width * 0.1, y: height * 0.2, label: 'Elite college'},
-                {id: 'noBA', x:  width * 0.1, y: height * 0.8, label: 'No BA'},
-                {id: 'privateCollege', x:  width * 0.1, y: height * 0.3, label: 'Private college'},
-                {id: 'publicCollege', x: width * 0.14, y: height * 0.6, label: 'Public college'},
-                {id: 'communityCollege', x: width * 0.075, y: height * 0.6, label: 'Community college'},
+                {id: 'eliteCollegeBefore', x:  width * 0.07, y: height * 0.33, label: ''},
+                {id: 'eliteCollege', x:  width * 0.089, y: height * 0.29, label: 'Elite college'},
+                {id: 'eliteCollegeAfter', x: width * 0.13, y: height * 0.29, label: ''},
+                {id: 'privateCollege', x:  width * 0.09, y: height * 0.38, label: 'Private college'},
+                {id: 'privateCollegeAfter', x:  width * 0.13, y: height * 0.38, label: ''},
 
-                {id: 'lawSchool', x:  width * 0.25, y: height * 0.25, label: 'Law school'},
-                {id: 'medDegree', x:  width * 0.21, y: height * 0.4, label: 'Medical degree'},
-                {id: 'doctorate', x:  width * 0.22, y: height * 0.46, label: 'doctorate'},
-                {id: 'mba', x:  width * 0.2, y: height * 0.5, label: 'MBA'},
-                {id: 'otherMasters', x:  width * 0.175, y: height * 0.4, label: 'Master\'s'},
+                {id: 'publicCollege', x: width * 0.10, y: height * 0.7, label: 'Public college'},
+                {id: 'publicCollegeAfter', x:  width * 0.13, y: height * 0.7, label: ''},
+                {id: 'communityCollege', x: width * 0.075, y: height * 0.5, label: 'Community college'},
+                {id: 'noBA', x:  width * 0.08, y: height * 0.8, label: 'No BA'},
 
-                {id: 'lawyerPrivatePractice', x:  width * 0.4, y: height * 0.1, label: 'Lawyer (private practice)'},
-                {id: 'sciOrEng', x:  width * 0.3, y: height * 0.4, label: 'sciOrEng'},
-                {id: 'religion', x:  width * 0.3, y: height * 0.5, label: 'religion'},
-                {id: 'blueCollarOrServiceJob', x:  width * 0.3, y: height * 0.6, label: 'blueCollarOrServiceJob'},
+                {id: 'lawSchool', x:  width * 0.2, y: height * 0.40, label: 'Law school'},
+                {id: 'medDegree', x:  width * 0.2, y: height * 0.49, label: 'Medical degree'},
+                {id: 'doctorate', x:  width * 0.3, y: height * 0.46, label: 'doctorate'},
+                {id: 'mba', x:  width * 0.23, y: height * 0.5, label: 'MBA'},
+                {id: 'otherMasters', x:  width * 0.27, y: height * 0.49, label: 'Master\'s'},
+                {id: 'noHigherEdAfter', x: width * 0.23, y: height * 0.8, label: ''},
+
+                {id: 'lawyerPrivatePractice', x:  width * 0.35, y: height * 0.2, label: 'Lawyer (private practice)'},
+                {id: 'sciOrEng', x:  width * 0.32, y: height * 0.6, label: 'sciOrEng'},
+                {id: 'religion', x:  width * 0.31, y: height * 0.9, label: 'religion'},
+                {id: 'blueCollarOrServiceJob', x:  width * 0.29, y: height * 0.9, label: 'blueCollarOrServiceJob'},
                 {id: 'sports', x:  width * 0.3, y: height * 0.7, label: 'Sports'},
-                {id: 'military', x:  width * 0.27, y: height * 0.44, label: 'Military'},
-                {id: 'businessOrManagement', x:  width * 0.3, y: height * 0.9, label: 'Business'},
-                {id: 'media', x:  width * 0.3, y: height * 0.8, label: 'Media'},
-                {id: 'realEstate', x:  width * 0.4, y: height * 0.9, label: 'Real estate'},
+                {id: 'military', x:  width * 0.4, y: height * 0.37, label: 'Military'},
 
-                {id: 'healthcare', x:  width * 0.5, y: height * 0.2, label: 'healthcare'},
-                {id: 'education', x:  width * 0.5, y: height * 0.4, label: 'education'},
-                {id: 'farmingOrRanching', x:  width * 0.5, y: height * 0.94, label: 'farmingOrRanching'},
-                {id: 'healthcare', x:  width * 0.5, y: height * 0.8, label: 'healthcare'},
+                {id: 'businessOrManagement', x:  width * 0.47, y: height * 0.5, label: 'Business'},
 
-                {id: 'nonprofitsAndUnions', x:  width * 0.7, y: height * 0.3, label: 'Nonprofits'},
-                {id: 'publicLawyerOrJudge', x:  width * 0.7, y: height * 0.2, label: 'Public lawyer'},
-                {id: 'nonElectedGovJob', x:  width * 0.7, y: height * 0.46, label: 'Non-elected gov'},
+                {id: 'lawOnlyAfter', x: width * 0.47, y: height * 0.2, label: ''},
+                {id: 'militaryOnlyAfter', x: width * 0.47, y: height * 0.37, label: ''},
+                {id: 'noGradNoBusinessAfter', x: width * 0.47, y: height * 0.8, label: ''},
+                {id: 'gradNoBusinessAfter', x: width * 0.47, y: height * 0.7, label: ''},
 
-                {id: 'stateLegBefore', x: width * 0.82, y: height * 0.49, label: ''},
-                {id: 'stateLeg', x: width * 0.86, y: height * 0.49, label: 'stateLeg'},
-                {id: 'stateLegAfter', x: width * 0.90, y: height * 0.49, label: ''},
+                {id: 'media', x:  width * 0.8, y: height * 0.9, label: 'Media'},
+                {id: 'realEstate', x:  width * 0.8, y: height * 0.9, label: 'Real estate'},
+
+                {id: 'healthcare', x:  width * 0.8, y: height * 0.9, label: 'healthcare'},
+                {id: 'education', x:  width * 0.8, y: height * 0.9, label: 'education'},
+                {id: 'farmingOrRanching', x:  width * 0.8, y: height * 0.9, label: 'farmingOrRanching'},
+                {id: 'healthcare', x:  width * 0.8, y: height * 0.9, label: 'healthcare'},
+
+                {id: 'nonprofitsAndUnions', x:  width * 0.8, y: height * 0.9, label: 'Nonprofits'},
+                {id: 'publicLawyerOrJudge', x:  width * 0.8, y: height * 0.9, label: 'Public lawyer'},
+                {id: 'nonElectedGovJob', x:  width * 0.8, y: height * 0.9, label: 'Non-elected gov'},
+
+                {id: 'stateLegBefore', x: width * 0.8, y: height * 0.9, label: ''},
+                {id: 'stateLeg', x: width * 0.85, y: height * 0.49, label: 'stateLeg'},
 
                 {id: 'localGov', x:  width * 0.8, y: height * 0.9, label: 'localGov'},//prevUnsuccessfulCandidate
-                {id: 'prevUnsuccessfulCandidate', x:  width * 0.7, y: height * 0.75, label: 'prevUnsuccessfulCandidate'},
+                {id: 'prevUnsuccessfulCandidate', x:  width * 0.8, y: height * 0.9, label: 'prevUnsuccessfulCandidate'},
 
                 {id: 'congressRep', x:  width * 0.95, y: height * 0.6, label: 'House'},
                 {id: 'congressSen', x:  width * 0.95, y: height * 0.4, label: 'Senate'},
@@ -160,22 +172,68 @@
                 return false;
             };
 
+            let hasHigherEd = false;
 
-            if (shouldIncludeStage(politician.privateCollege)) careerStages.push('privateCollege');
-            if (shouldIncludeStage(politician.publicCollege)) careerStages.push('publicCollege');
+            if (shouldIncludeStage(politician.eliteCollege)) {
+                careerStages.push('eliteCollegeBefore');
+                careerStages.push('eliteCollege');
+                careerStages.push('eliteCollegeAfter');
+            } else if (shouldIncludeStage(politician.privateCollege)) {
+                careerStages.push('privateCollege');
+                careerStages.push('privateCollegeAfter');
+            } else if (shouldIncludeStage(politician.publicCollege)) {
+                careerStages.push('publicCollege');
+            }
+
+            // Community college and no BA can still be included independently
             if (shouldIncludeStage(politician.communityCollege)) careerStages.push('communityCollege');
-            if (shouldIncludeStage(politician.eliteCollege)) careerStages.push('eliteCollege');
             if (shouldIncludeStage(politician.noBA)) careerStages.push('noBA');
 
-            if (shouldIncludeStage(politician.lawSchool)) careerStages.push('lawSchool');
-            if (shouldIncludeStage(politician.mba)) careerStages.push('mba');
-            if (shouldIncludeStage(politician.otherMasters)) careerStages.push('otherMasters');
-            if (shouldIncludeStage(politician.medDegree)) careerStages.push('medDegree');
-            if (shouldIncludeStage(politician.doctorate)) careerStages.push('doctorate');
+
+            if (shouldIncludeStage(politician.lawSchool)) {
+                careerStages.push('lawSchool');
+                hasHigherEd = true;
+            }
+            if (shouldIncludeStage(politician.mba)) {
+                careerStages.push('mba');
+                hasHigherEd = true;
+            }
+            if (shouldIncludeStage(politician.otherMasters)) {
+                careerStages.push('otherMasters')
+                hasHigherEd = true;
+            };
+            if (shouldIncludeStage(politician.medDegree)) {
+                careerStages.push('medDegree')
+                hasHigherEd = true;
+            };
+            if (shouldIncludeStage(politician.doctorate)) {
+                careerStages.push('doctorate')
+                hasHigherEd = true;
+            };
+
+            if (!hasHigherEd) {
+                careerStages.push('noHigherEdAfter');
+            }
 
             if (shouldIncludeStage(politician.sports)) careerStages.push('sports');
             if (shouldIncludeStage(politician.military)) careerStages.push('military');
             if (shouldIncludeStage(politician.businessOrManagement)) careerStages.push('businessOrManagement');
+            if (shouldIncludeStage(politician.lawyerPrivatePractice) && !shouldIncludeStage(politician.businessOrManagement)) {
+                careerStages.push('lawOnlyAfter');
+            }
+            if (shouldIncludeStage(politician.military) && !shouldIncludeStage(politician.businessOrManagement) && !shouldIncludeStage(politician.lawyerPrivatePractice)) {
+                careerStages.push('militaryOnlyAfter');
+            }
+            if (!hasHigherEd && !shouldIncludeStage(politician.military) && !shouldIncludeStage(politician.businessOrManagement)) {
+                careerStages.push('noGradNoBusinessAfter');
+            }
+            if (
+                hasHigherEd
+                && !shouldIncludeStage(politician.businessOrManagement)
+                && !shouldIncludeStage(politician.military)
+                && !shouldIncludeStage(politician.lawyerPrivatePractice)
+            ) careerStages.push("gradNoBusinessAfter");
+
             if (shouldIncludeStage(politician.media)) careerStages.push('media');
             if (shouldIncludeStage(politician.realEstate)) careerStages.push('realEstate');
             if (shouldIncludeStage(politician.lawyerPrivatePractice)) careerStages.push('lawyerPrivatePractice');
@@ -215,7 +273,7 @@
         d3.json('../data/118-processed-bios.json')
             .then(data => {
                 const allPoliticians = Object.values(data).map(processCareerStages);
-                const sampledPoliticians = allPoliticians;
+                sampledPoliticians = allPoliticians;
                     //.sort(() => 0.5 - Math.random());
                     //.slice(0, 500);
 
@@ -240,15 +298,16 @@
                 drawNodes();
 
                 function drawNodes() {
-                    const topHeight = height * 0.05;
-                    const bottomHeight = height * 0.95;
+                    const topHeight1 = height * 0.03;  // Higher top row
+                    const topHeight2 = height * 0.07;  // Lower top row
+                    const bottomHeight1 = height * 0.93;  // Higher bottom row
+                    const bottomHeight2 = height * 0.97;  // Lower bottom row
                     const midHeight = height * 0.5;
 
                     // Draw circles for nodes
                     svg.selectAll('circle')
-                    .data(stages.filter(d => !['startNode', 'congressRep', 'congressSen'].includes(d.id) && 
-                                                !d.id.includes('Before') && 
-                                                !d.id.includes('After')))
+                        .data(stages.filter(d => !['startNode', 'congressRep', 'congressSen'].includes(d.id) && !d.id.includes('Before') && 
+                        !d.id.includes('After')))
                         .enter()
                         .append('circle')
                         .attr('class', 'node')
@@ -260,40 +319,77 @@
                         })
                         .style('fill', 'none')
                         .style('stroke', '#000')
-                        .style('stroke-width', 1.5)
+                        .style('stroke-width', 1)
                         .on('mouseover', handleNodeMouseOver)
                         .on('mouseout', handleNodeMouseOut);
 
+                    // Sort stages by x-position within their top/bottom groups
                     const filteredStages = stages.filter(d => !['startNode'].includes(d.id) && 
                                                 !d.id.includes('Before') && 
                                                 !d.id.includes('After'));
+                    const topStages = filteredStages.filter(d => d.y < midHeight).sort((a, b) => a.x - b.x);
+                    const bottomStages = filteredStages.filter(d => d.y >= midHeight).sort((a, b) => a.x - b.x);
+
+                    // Function to determine label height
+                    const getLabelHeight = (d, index, isTop) => {
+                        if (isTop) {
+                            return index % 2 === 0 ? topHeight1 : topHeight2;
+                        } else {
+                            return index % 2 === 0 ? bottomHeight1 : bottomHeight2;
+                        }
+                    };
 
                     // Add connecting dotted lines
-                    svg.selectAll('.label-line')
-                        .data(filteredStages)
+                    svg.selectAll('.label-line-top')
+                        .data(topStages)
                         .enter()
                         .append('line')
                         .attr('class', 'label-line')
                         .attr('x1', d => d.x)
                         .attr('y1', d => d.y)
                         .attr('x2', d => d.x)
-                        .attr('y2', d => d.y < midHeight ? topHeight : bottomHeight)
+                        .attr('y2', (d, i) => getLabelHeight(d, i, true))
                         .style('stroke', '#666')
                         .style('stroke-width', 1)
                         .style('stroke-dasharray', '3,3');
 
-                    // Add labels based on node position
-                    svg.selectAll('.node-label')
-                        .data(filteredStages)
+                    svg.selectAll('.label-line-bottom')
+                        .data(bottomStages)
+                        .enter()
+                        .append('line')
+                        .attr('class', 'label-line')
+                        .attr('x1', d => d.x)
+                        .attr('y1', d => d.y)
+                        .attr('x2', d => d.x)
+                        .attr('y2', (d, i) => getLabelHeight(d, i, false))
+                        .style('stroke', '#666')
+                        .style('stroke-width', 1)
+                        .style('stroke-dasharray', '3,3');
+
+                    // Add labels for top nodes
+                    svg.selectAll('.node-label-top')
+                        .data(topStages)
                         .enter()
                         .append('text')
                         .attr('class', 'node-label')
                         .attr('x', d => d.x)
-                        .attr('y', d => d.y < midHeight ? topHeight : bottomHeight)
+                        .attr('y', (d, i) => getLabelHeight(d, i, true))
                         .attr('text-anchor', 'middle')
-                        .attr('dominant-baseline', d => d.y < midHeight ? 'baseline' : 'hanging')
+                        .attr('dominant-baseline', 'baseline')
                         .text(d => d.label);
-                }
+
+                    // Add labels for bottom nodes
+                    svg.selectAll('.node-label-bottom')
+                        .data(bottomStages)
+                        .enter()
+                        .append('text')
+                        .attr('class', 'node-label')
+                        .attr('x', d => d.x)
+                        .attr('y', (d, i) => getLabelHeight(d, i, false))
+                        .attr('text-anchor', 'middle')
+                        .attr('dominant-baseline', 'hanging')
+                        .text(d => d.label);
+                };
 
                 function drawPaths() {
                     const line = d3.line()
@@ -319,7 +415,7 @@
                             .attr('d', line(pathPoints))
                             .style('stroke', politician.color)
                             .style('opacity', 0.6)
-                            .style('stroke-width', '1.5px')
+                            .style('stroke-width', '1.25px')
                             .on('mouseover', (event) => handlePathMouseOver(event, politician))
                             .on('mouseout', handlePathMouseOut);
                     });
@@ -392,21 +488,42 @@
         }
 
         function calculateOffset(traffic, pathIndex) {
-            if (['startNode','congressRep','congressSen'].includes(traffic.stageId)) {
+            // Skip offset calculation for certain nodes
+            if (['startNode', 'congressRep', 'congressSen'].includes(traffic.stageId)) {
                 return 0;
             }
 
-            if (traffic.count === 1) return 0;
-            const pathPosition = traffic.pathIndices.indexOf(pathIndex);
-            const spread = 0.2;
-            const totalWidth = (traffic.count - 1) * spread;
-
-            const allOffsets = traffic.pathIndices.map((_, index) =>
-                (index * spread) - (totalWidth / 2)
-            );
-            const meanOffset = allOffsets.reduce((sum,offset) => sum + offset, 0) / allOffsets.length;
+            const politician = sampledPoliticians[pathIndex];
+            const spread = 0.35;  // Spread between paths within same party
             
-            return ((pathPosition * spread) - (totalWidth )) - meanOffset;
+            // Separate paths by party
+            const democratPaths = traffic.pathIndices.filter(i => sampledPoliticians[i].party === 'D');
+            const republicanPaths = traffic.pathIndices.filter(i => sampledPoliticians[i].party === 'R');
+            const otherPaths = traffic.pathIndices.filter(i => !['D', 'R'].includes(sampledPoliticians[i].party));
+            
+            // Calculate base separation based on number of paths
+            const totalPaths = traffic.pathIndices.length;
+            const baseSeparation = 0.16 * (0.5 * democratPaths.length + 0.5 * republicanPaths.length); // SPREAD BTWN PARTIES
+            // Scales with paths but capped between 10 and 30
+            
+            // Calculate position within party group
+            const partyPaths = politician.party === 'D' ? democratPaths : 
+                            politician.party === 'R' ? republicanPaths : 
+                            otherPaths;
+            
+            const partyPosition = partyPaths.indexOf(pathIndex);
+            const totalWidth = (partyPaths.length - 1) * spread;
+            
+            // Calculate base offset by party
+            let baseOffset = 0;
+            if (politician.party === 'D') {
+                baseOffset = -baseSeparation;
+            } else if (politician.party === 'R') {
+                baseOffset = baseSeparation;
+            }
+            
+            // Add spread within party group
+            return baseOffset + ((partyPosition * spread) - (totalWidth / 2));
         }
 
 
