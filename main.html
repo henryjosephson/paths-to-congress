@@ -4,82 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Congressional Career Paths</title>
-    <style>
-        /* Reset default margins and padding */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Ensure the body takes full viewport height */
-        body {
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        /* Style the visualization container */
-        #visualization {
-            width: 100%;
-            height: 100%;
-            background-color: white;
-        }
-
-        .congress-select {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 100;
-            padding: 8px;
-            font-size: 14px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-        }
-
-        /* Path styles */
-        .path {
-            fill: none;
-            stroke-width: 2;
-            opacity: 0.7;
-        }
-
-        /* Node styles */
-        .node {
-            fill: white;
-            stroke: black;
-            stroke-width: 1;
-        }
-
-        /* Label styles */
-        .node-label {
-            font-size: 12px;
-            font-family: Arial, sans-serif;
-            text-anchor: middle;
-        }
-
-        .politician-label {
-            font-size: 12px;
-            font-family: Arial, sans-serif;
-            text-anchor: start;
-        }
-
-        /* Tooltip styles */
-        .tooltip {
-            position: absolute;
-            padding: 8px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            pointer-events: none;
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-    </style>
+    <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 </head>
 <body>
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search by name...">
+        <div class="dropdown"></div>
+    </div>
     <select id="congress-select" class="congress-select">
         <!--options will be populated by js-->
     </select>
@@ -119,56 +51,102 @@
                 { id: "eliteCollegeBefore", x: width * 0.07, y: height * 0.33, label: "" },
                 { id: "eliteCollege", x: width * 0.089, y: height * 0.29, label: "Elite college" },
                 { id: "eliteCollegeAfter", x: width * 0.13, y: height * 0.29, label: "" },
-                { id: "privateCollege", x: width * 0.09, y: height * 0.38, label: "Private college" },
+                { id: "privateCollege", x: width * 0.1, y: height * 0.39, label: "Private college" },
                 { id: "privateCollegeAfter", x: width * 0.13, y: height * 0.38, label: "" },
 
+
+                //{ id: "eliteCollegeLawSchoolAfter", x: width * 0.15, y: height * 0.27, label: "" },
+                { id: "eliteCollegeMedSchoolAfter", x: width * 0.14, y: height * 0.31, label: "" },
+                { id: "eliteCollegeNoMedNoLawAfter", x: width * 0.16, y: height * 0.29, label: "" },
+                { id: "eliteCollegeNoMedNoLawMBAAfter", x: width * 0.2, y: height * 0.44, label: "" },
+                { id: "eliteCollegeNoMedNoLawMastersAfter", x: width * 0.19, y: height * 0.32, label: "" },
+                { id: "eliteCollegeNoGradAfter", x: width * 0.22, y: height * 0.7, label: "" },
+
+                // Private college control nodes
+                { id: "privateCollegeLawSchoolAfter", x: width * 0.15, y: height * 0.35, label: "" },
+                { id: "privateCollegeMedSchoolAfter", x: width * 0.16, y: height * 0.49, label: "" },
+                { id: "privateCollegeNoMedNoLawAfter", x: width * 0.16, y: height * 0.38, label: "" },
+                { id: "privateCollegeNoMedNoLawMBAAfter", x: width * 0.2, y: height * 0.47, label: "" },
+                { id: "privateCollegeNoMedNoLawMastersAfter", x: width * 0.19, y: height * 0.47, label: "" },
+                { id: "privateCollegeNoGradAfter", x: width * 0.15, y: height * 0.9, label: "" },
+
                 { id: "publicCollege", x: width * 0.1, y: height * 0.7, label: "Public college" },
-                { id: "publicCollegeAfter", x: width * 0.13, y: height * 0.7, label: "" },
+                //{ id: "publicCollegeAfter", x: width * 0.12, y: height * 0.71, label: "" },
+                { id: "pubCollegeLawSchoolAfter", x: width * 0.14, y: height * 0.6, label: "" },
+                { id: "pubCollegeMedSchoolAfter", x: width * 0.14, y: height * 0.7, label: "" },
+                { id: "pubCollegeNoMedNoLawMBAAfter", x: width * 0.16, y: height * 0.72, label: "" },
+                { id: "pubCollegeNoMedNoLawMastersAfter", x: width * 0.16, y: height * 0.75, label: "" },
+                //{ id: "pubCollegeNoGradAfter", x: width * 0.15, y: height * 0.9, label: "" },
+
                 { id: "communityCollege", x: width * 0.075, y: height * 0.5, label: "Community college" },
-                { id: "noBA", x: width * 0.09, y: height * 0.5, label: "No BA" },
+                { id: "noBA", x: width * 0.1, y: height * 0.58, label: "No BA" },
 
-                { id: "lawSchool", x: width * 0.2, y: height * 0.4, label: "Law school" },
-                { id: "medDegree", x: width * 0.2, y: height * 0.49, label: "Medical degree" },
+                { id: "lawSchool", x: width * 0.18, y: height * 0.3, label: "Law school" },
+                { id: "lawThenMastersAfter", x: width * 0.22, y: height * 0.33, label: "" },
+                { id: "lawNoMAsNoPrivateAfter", x: width * 0.26, y: height * 0.33, label: "" },
+
+                { id: "medDegree", x: width * 0.2, y: height * 0.52, label: "Medical degree" },
                 { id: "doctorate", x: width * 0.3, y: height * 0.46, label: "doctorate" },
-                { id: "mba", x: width * 0.23, y: height * 0.5, label: "MBA" },
-                { id: "otherMasters", x: width * 0.27, y: height * 0.49, label: "Master's" },
-                { id: "noHigherEdAfter", x: width * 0.23, y: height * 0.8, label: "" },
+                { id: "mba", x: width * 0.23, y: height * 0.499, label: "MBA" },
+                { id: "otherMasters", x: width * 0.28, y: height * 0.49, label: "Master's" },
+                { id: "privCol_noHigherEdAfter", x: width * 0.23, y: height * 0.8, label: "" },
+                { id: "pubCol_noHigherEdAfter", x: width * 0.23, y: height * 0.9, label: "" },
+                { id: "noBA_noHigherEdAfter", x: width * 0.23, y: height * 0.85, label: "" },
 
-                { id: "lawyerPrivatePractice", x: width * 0.35, y: height * 0.2, label: "Lawyer (private practice)" },
-                { id: "lawyerPrivatePracticeBusinessNoMilitaryAfter", x: width * 0.41, y: height * 0.27, label: "" },
+                { id: "noHigherEdTopOrMiddle", x: width * 0.29, y: height * 0.7, label: "" },
+
+                { id: "lawyerPrivatePractice", x: width * 0.35, y: height * 0.22, label: "Lawyer (private practice)" },
+                { id: "lawyerPubNoPrivBefore", x: width * 0.4, y: height * 0.33, label: "" },
+
+                { id: "lawyerPrivatePracticeBusinessNoMilitaryAfter", x: width * 0.41, y: height * 0.2, label: "" },
                 { id: "sciOrEng", x: width * 0.32, y: height * 0.6, label: "sciOrEng" },
                 { id: "religion", x: width * 0.31, y: height * 0.9, label: "religion" },
-                { id: "blueCollarOrServiceJob", x: width * 0.29, y: height * 0.9, label: "blueCollarOrServiceJob" },
-                { id: "sports", x: width * 0.3, y: height * 0.7, label: "Sports" },
-                { id: "military", x: width * 0.4, y: height * 0.37, label: "Military" },
+                { id: "blueCollarOrServiceJob", x: width * 0.36, y: height * 0.58, label: "blueCollarOrServiceJob" },
+                { id: "sports", x: width * 0.46, y: height * 0.7, label: "Sports" },
+                { id: "military", x: width * 0.4, y: height * 0.39, label: "Military" },
 
-                { id: "businessOrManagement", x: width * 0.47, y: height * 0.5, label: "Business" },
+                { id: "gradBusinessAfter", x: width * 0.4, y: height * 0.5, label: "" },
+                { id: "businessBottomBefore", x: width * 0.56, y: height * 0.8, label: "" }, // NEXT
+                { id: "BusinessAboveBefore", x: width * 0.59, y: height * 0.3, label: "" },
 
-                { id: "lawOnlyAfter", x: width * 0.47, y: height * 0.2, label: "" },
+                { id: "businessOrManagement", x: width * 0.58, y: height * 0.5, label: "Business" },
+                { id: "businessOrManagementAfter", x: width * 0.6, y: height * 0.5, label: "" },
+
+
+                { id: "lawOnlyAfter", x: width * 0.41, y: height * 0.2, label: "" },
                 { id: "militaryOnlyAfter", x: width * 0.47, y: height * 0.37, label: "" },
-                { id: "noGradNoBusinessAfter", x: width * 0.47, y: height * 0.8, label: "" },
-                { id: "gradNoBusinessAfter", x: width * 0.47, y: height * 0.7, label: "" },
+                { id: "noGradNoBusinessAfter", x: width * 0.51, y: height * 0.8, label: "" },
+                //{ id: "gradNoBusinessAfter", x: width * 0.43, y: height * 0.7, label: "" },
 
-                { id: "media", x: width * 0.8, y: height * 0.9, label: "Media" },
-                { id: "realEstate", x: width * 0.8, y: height * 0.9, label: "Real estate" },
+                { id: "media", x: width * 0.62, y: height * 0.8, label: "Media" },
+                { id: "realEstate", x: width * 0.64, y: height * 0.75, label: "Real estate" },
 
-                { id: "healthcare", x: width * 0.8, y: height * 0.9, label: "healthcare" },
-                { id: "education", x: width * 0.8, y: height * 0.9, label: "education" },
-                { id: "farmingOrRanching", x: width * 0.8, y: height * 0.9, label: "farmingOrRanching" },
-                { id: "healthcare", x: width * 0.8, y: height * 0.9, label: "healthcare" },
+                { id: "education", x: width * 0.52, y: height * 0.4, label: "education" },
+                { id: "farmingOrRanching", x: width * 0.54, y: height * 0.65, label: "farmingOrRanching" },
+                { id: "healthcare", x: width * 0.45, y: height * 0.58, label: "healthcare" },
 
-                { id: "nonprofitsAndUnions", x: width * 0.8, y: height * 0.9, label: "Nonprofits" },
-                { id: "publicLawyerOrJudge", x: width * 0.8, y: height * 0.9, label: "Public lawyer" },
-                { id: "nonElectedGovJob", x: width * 0.8, y: height * 0.9, label: "Non-elected gov" },
+                { id: "nonprofitsAndUnions", x: width * 0.45, y: height * 0.65, label: "NonprofitsAndUnions" },
+                { id: "publicLawyerOrJudge", x: width * 0.65, y: height * 0.13, label: "Public lawyer" },
+                //{ id: "nonElectedGovJob", x: width * 0.69, y: height * 0.4, label: "Non-elected gov" },
+                { id: "electedFedOrStateOffice", x: width * 0.69, y: height * 0.73, label: "elected statewide office"},
 
-                { id: "stateLegBefore", x: width * 0.8, y: height * 0.9, label: "" },
-                { id: "stateLeg", x: width * 0.85, y: height * 0.49, label: "stateLeg" },
+                //{ id: "stateLegBefore", x: width * 0.85, y: height * 0.49, label: "" },
+                { id: "stateLeg", x: width * 0.85, y: height * 0.54, label: "stateLeg" },
+                { id: "houseNoNonElecNoStateNoLocalBefore", x: width * 0.79, y: height * 0.77, label: "" },
+                { id: "houseNoStateLegBefore", x: width * 0.85, y: height * 0.8, label: "" },
 
-                { id: "localGov", x: width * 0.8, y: height * 0.9, label: "localGov" }, //prevUnsuccessfulCandidate
-                { id: "prevUnsuccessfulCandidate", x: width * 0.8, y: height * 0.9, label: "prevUnsuccessfulCandidate" },
+                { id: "localGovPubLawOrEduBefore", x: width * 0.7, y: height * 0.4, label: "" },
+                { id: "highPointNoLocalGovAfter", x: width * 0.75, y: height * 0.3, label: "highPointNoLocalGovAfter" },
+                { id: "centralishPointNoLocalGovAfter", x: width * 0.72, y: height * 0.6, label: "centralishPointNoLocalGovAfter" },
+                { id: "businessNoStateLegYesHouseAfter", x: width * 0.85, y: height * 0.69, label: ""},
+                { id: "localGov", x: width * 0.75, y: height * 0.45, label: "localGov" },
+                //{ id: "prevUnsuccessfulCandidate", x: width * 0.67, y: height * 0.8, label: "prevUnsuccessfulCandidate" },
+
+                { id: "senateStateLegNoHouseBefore", x: width * 0.92, y: height * 0.44, label: "" },
+                { id: "senateNoStateLegNoHouseBefore", x: width * 0.87, y: height * 0.3, label: "" },
+                { id: "prevHouse", x: width * 0.89, y: height * 0.4, label: "previous House" },
 
                 { id: "congressRep", x: width * 0.95, y: height * 0.6, label: "House" },
-                { id: "prevHouse", x: width * 0.87, y: height * 0.3, label: "previous House" },
                 { id: "congressSen", x: width * 0.95, y: height * 0.4, label: "Senate" },
             ];
         }
@@ -199,18 +177,95 @@
                 if (typeof value === "string" && value.trim().length > 0 && value !== "False") return true;
                 return false;
             };
+            function isMiddlePath(stages, width) {
+                const middlePoints = [
+                    "healthcare",
+                    "education", 
+                    "nonprofitsAndUnions",
+                    "sciOrEng",
+                    "sports",
+                    "blueCollarOrServiceJob",
+                    // "businessOrManagement",
+                    "farmingOrRanching"
+                ];
+
+                return stages.some(stage => middlePoints.includes(stage));
+                }
 
             let hasHigherEd = false;
 
             if (shouldIncludeStage(politician.eliteCollege)) {
+                if (shouldIncludeStage(politician.communityCollege)) {
+                    careerStages.push("eliteCollege");
+                    careerStages.push("eliteCollegeAfter");
+                } else {
                 careerStages.push("eliteCollegeBefore");
                 careerStages.push("eliteCollege");
                 careerStages.push("eliteCollegeAfter");
-            } else if (shouldIncludeStage(politician.privateCollege)) {
+                }
+
+                if (shouldIncludeStage(politician.lawSchool)) {
+                    careerStages.push("eliteCollegeLawSchoolAfter");
+                } else if (shouldIncludeStage(politician.medDegree)) {
+                    careerStages.push("eliteCollegeMedSchoolAfter");
+                }
+                else if (!shouldIncludeStage(politician.medDegree) && !shouldIncludeStage(politician.lawSchool) && shouldIncludeStage(politician.mba)) {
+                    careerStages.push("eliteCollegeNoMedNoLawMBAAfter");
+                }
+                else if (!shouldIncludeStage(politician.medDegree) && !shouldIncludeStage(politician.lawSchool) && !shouldIncludeStage(politician.mba) && shouldIncludeStage(politician.otherMasters)) {
+                    careerStages.push("eliteCollegeNoMedNoLawMastersAfter");
+                }
+                else if (!shouldIncludeStage(politician.medDegree) && !shouldIncludeStage(politician.lawSchool) && !shouldIncludeStage(politician.mba) && !shouldIncludeStage(politician.otherMasters)) {
+                    careerStages.push("eliteCollegeNoGradAfter");
+                }
+            }
+            // Private College path
+            else if (shouldIncludeStage(politician.privateCollege)) {
                 careerStages.push("privateCollege");
                 careerStages.push("privateCollegeAfter");
-            } else if (shouldIncludeStage(politician.publicCollege)) {
+                
+                if (shouldIncludeStage(politician.lawSchool)) {
+                    careerStages.push("privateCollegeLawSchoolAfter");
+                }
+                else if (shouldIncludeStage(politician.medDegree)) {
+                    careerStages.push("privateCollegeMedSchoolAfter");
+                }
+                else if (!shouldIncludeStage(politician.medDegree) && !shouldIncludeStage(politician.lawSchool) && shouldIncludeStage(politician.mba)) {
+                    careerStages.push("privateCollegeNoMedNoLawMBAAfter");
+                }
+                else if (!shouldIncludeStage(politician.medDegree) && !shouldIncludeStage(politician.lawSchool) && !shouldIncludeStage(politician.mba) && shouldIncludeStage(politician.otherMasters)) {
+                    careerStages.push("privateCollegeNoMedNoLawMastersAfter");
+                }
+                else if (!shouldIncludeStage(politician.medDegree) && !shouldIncludeStage(politician.lawSchool)) {
+                    careerStages.push("privateCollegeNoMedNoLawAfter");
+                }
+                else if (!shouldIncludeStage(politician.medDegree) && !shouldIncludeStage(politician.lawSchool) && !shouldIncludeStage(politician.mba) && !shouldIncludeStage(politician.otherMasters)) {
+                    careerStages.push("privateCollegeNoGradAfter");
+                }
+            }
+            // Public College path (existing code)
+            else if (shouldIncludeStage(politician.publicCollege)) {
                 careerStages.push("publicCollege");
+                careerStages.push("publicCollegeAfter");
+                
+                if (shouldIncludeStage(politician.lawSchool)) {
+                    careerStages.push("pubCollegeLawSchoolAfter");
+                }
+                else if (shouldIncludeStage(politician.medDegree)) {
+                    careerStages.push("pubCollegeMedSchoolAfter");
+                }
+                else if (!shouldIncludeStage(politician.medDegree) && !shouldIncludeStage(politician.lawSchool) && shouldIncludeStage(politician.mba)) {
+                    careerStages.push("pubCollegeNoMedNoLawMBAAfter");
+                }
+                else if (!shouldIncludeStage(politician.medDegree) && !shouldIncludeStage(politician.lawSchool) && !shouldIncludeStage(politician.mba) && shouldIncludeStage(politician.otherMasters)) {
+                    careerStages.push("pubCollegeNoMedNoLawMastersAfter");
+                }
+                else if (!shouldIncludeStage(politician.medDegree) && !shouldIncludeStage(politician.lawSchool)) {
+                    careerStages.push("pubCollegeNoMedNoLawAfter");
+                }
+                else if (!shouldIncludeStage(politician.medDegree) && !shouldIncludeStage(politician.lawSchool) && !shouldIncludeStage(politician.mba) && !shouldIncludeStage(politician.otherMasters)) {
+                    careerStages.push("pubCollegeNoGradAfter");
+                }
             } else {
                 careerStages.push("noBA");
             }
@@ -222,11 +277,17 @@
             if (shouldIncludeStage(politician.lawSchool)) {
                 careerStages.push("lawSchool");
                 hasHigherEd = true;
+                if (shouldIncludeStage(politician.otherMasters)) {
+                    careerStages.push("lawThenMastersAfter");
+                } else if (!shouldIncludeStage(politician.mba) && !shouldIncludeStage(politician.lawyerPrivatePractice)) {
+                    careerStages.push("lawNoMAsNoPrivateAfter");
+                }
             }
             if (shouldIncludeStage(politician.mba)) {
                 careerStages.push("mba");
                 hasHigherEd = true;
             }
+
             if (shouldIncludeStage(politician.otherMasters)) {
                 careerStages.push("otherMasters");
                 hasHigherEd = true;
@@ -241,7 +302,13 @@
             }
 
             if (!hasHigherEd) {
-                careerStages.push("noHigherEdAfter");
+                if (careerStages.includes("noBA")) {
+                    careerStages.push("noBA_noHigherEdAfter");
+                } else if (shouldIncludeStage(politician.publicCollege)) {
+                    careerStages.push("pubCol_noHigherEdAfter");
+                } else if (shouldIncludeStage(politician.privateCollege)) {
+                    careerStages.push("privCol_noHigherEdAfter");
+                }
             }
 
             if (shouldIncludeStage(politician.sports)) careerStages.push("sports");
@@ -257,6 +324,9 @@
             ) {
                 careerStages.push("militaryOnlyAfter");
             }
+            if (shouldIncludeStage(politician.lawSchool) && !shouldIncludeStage(politician.lawyerPrivatePractice) && shouldIncludeStage(politician.publicLawyerOrJudge)) {
+                careerStages.push("lawyerPubNoPrivBefore");
+            }
             if (
                 shouldIncludeStage(politician.lawyerPrivatePractice) &&
                 !shouldIncludeStage(politician.military) &&
@@ -267,7 +337,8 @@
             if (
                 !hasHigherEd &&
                 !shouldIncludeStage(politician.military) &&
-                !shouldIncludeStage(politician.businessOrManagement)
+                !shouldIncludeStage(politician.businessOrManagement) &&
+                !shouldIncludeStage(politician.education)
             ) {
                 careerStages.push("noGradNoBusinessAfter");
             }
@@ -275,9 +346,29 @@
                 hasHigherEd &&
                 !shouldIncludeStage(politician.businessOrManagement) &&
                 !shouldIncludeStage(politician.military) &&
-                !shouldIncludeStage(politician.lawyerPrivatePractice)
+                !shouldIncludeStage(politician.lawyerPrivatePractice) &&
+                !shouldIncludeStage(politician.publicLawyerOrJudge)
             )
                 careerStages.push("gradNoBusinessAfter");
+
+            if (hasHigherEd && shouldIncludeStage(politician.businessOrManagement)) {
+                if (!shouldIncludeStage(politician.military) && !shouldIncludeStage(politician.lawyerPrivatePractice)) {
+                    careerStages.push("gradBusinessAfter");
+                }
+            }
+
+            if (
+                careerStages.some(stage => [
+                    'farmingOrRanching',
+                    'sports',
+                    'religion',
+                    'blueCollarOrServiceJob',
+                    'healthcare'
+                ].includes(stage)) &&
+                !careerStages.includes("businessOrManagement")
+            ) {
+                careerStages.push("businessBottomBefore");
+            }
 
             if (shouldIncludeStage(politician.media)) careerStages.push("media");
             if (shouldIncludeStage(politician.realEstate)) careerStages.push("realEstate");
@@ -289,15 +380,72 @@
             if (shouldIncludeStage(politician.education)) careerStages.push("education");
             if (shouldIncludeStage(politician.farmingOrRanching)) careerStages.push("farmingOrRanching");
 
+            if ((
+                careerStages.includes("noBA_noHigherEdAfter") ||
+                careerStages.includes("pubCol_noHigherEdAfter") ||
+                careerStages.includes("privCol_noHigherEdAfter")
+            ) && (
+                careerStages.includes("military") ||
+                careerStages.includes("blueCollarOrServiceJob") ||
+                careerStages.includes("healthcare")
+            )) {
+                careerStages.push("noHigherEdTopOrMiddle");
+            }
+
+            if (
+                !shouldIncludeStage(politician.businessOrManagement) &&
+                !shouldIncludeStage(politician.farmingOrRanching) &&
+                !shouldIncludeStage(politician.sports) &&
+                !shouldIncludeStage(politician.healthcare) &&
+                !careerStages.includes("noGradNoBusinessAfter")
+            ) {
+                careerStages.push("BusinessAboveBefore");
+            }
+
             if (shouldIncludeStage(politician.nonprofitsAndUnions)) careerStages.push("nonprofitsAndUnions");
             if (shouldIncludeStage(politician.publicLawyerOrJudge)) careerStages.push("publicLawyerOrJudge");
+            if (shouldIncludeStage(politician.electedFedOrStateOffice)) careerStages.push("electedFedOrStateOffice");
             if (shouldIncludeStage(politician.nonElectedGovJob)) careerStages.push("nonElectedGovJob");
             if (shouldIncludeStage(politician.stateLeg)) {
                 careerStages.push("stateLegBefore");
                 careerStages.push("stateLeg");
                 careerStages.push("stateLegAfter");
             }
-            if (shouldIncludeStage(politician.localGov)) careerStages.push("localGov");
+            if (shouldIncludeStage(politician.localGov)) {
+                if (
+                    (
+                        shouldIncludeStage(politician.publicLawyerOrJudge) ||
+                        shouldIncludeStage(politician.lawyerPrivatePractice) ||
+                        shouldIncludeStage(politician.military)
+                    ) && (
+                        !shouldIncludeStage(politician.electedFedOrStateOffice) &&
+                        !shouldIncludeStage(politician.prevUnsuccessfulCandidate)
+                    )
+                )  {
+                    careerStages.push("localGovPubLawOrEduBefore");
+                }
+                careerStages.push("localGov")
+            } else if (
+                !shouldIncludeStage(politician.publicLawyerOrJudge) &&
+                !shouldIncludeStage(politician.electedFedOrStateOffice) &&
+                !shouldIncludeStage(politician.prevUnsuccessfulCandidate) &&
+                !shouldIncludeStage(politician.media)
+            ) {
+                careerStages.push("centralishPointNoLocalGovAfter");
+            }
+            if (
+                !shouldIncludeStage(politician.businessOrManagement) &&
+                !shouldIncludeStage(politician.education) &&
+                !shouldIncludeStage(politician.farmingOrRanching) &&
+                !shouldIncludeStage(politician.media) &&
+                !shouldIncludeStage(politician.realEstate) &&
+                !shouldIncludeStage(politician.electedFedOrStateOffice) &&
+                !shouldIncludeStage(politician.localGov) &&
+                !careerStages.includes("centralishPointNoLocalGovAfter")
+            ) {
+                careerStages.push("highPointNoLocalGovAfter");
+            };
+
             if (shouldIncludeStage(politician.prevUnsuccessfulCandidate)) careerStages.push("prevUnsuccessfulCandidate");
 
             const congressJob = politician.jobs[congressNum];
@@ -308,14 +456,35 @@
                         break;
                     }
                 }
+                if (!careerStages.includes("prevHouse")) {
+                    if (shouldIncludeStage(politician.stateLeg)) {
+                        careerStages.push("senateStateLegNoHouseBefore")
+                    } else  {
+                        careerStages.push("senateNoStateLegNoHouseBefore")
+                    };
+                }
                 careerStages.push("congressSen");
-            } else if (congressJob === "Representative") {
+            } else if (shouldIncludeStage(politician.jobs[congressNum] === "Representative")) {
+                if (!shouldIncludeStage(politician.stateLeg)) {
+                    if (!shouldIncludeStage(politician.localGov) && !shouldIncludeStage(politician.electedFedOrStateOffice)) {
+                        careerStages.push("houseNoNonElecNoStateNoLocalBefore");
+                    } {
+                        if (shouldIncludeStage(politician.businessOrManagement)) {
+                            const index = careerStages.indexOf("highPointNoLocalGovAfter");
+                            if (index > -1) careerStages.splice(index, 1);
+                            careerStages.push("businessNoStateLegYesHouseAfter");
+                        } else {
+                        careerStages.push("houseNoStateLegBefore");
+                        }
+                    }
+                }
                 careerStages.push("congressRep");
             }
 
             return {
                 id: politician.id,
                 name: `${politician.givenName} ${politician.familyName}`,
+                unaccentedName: `${politician.unaccentedGivenName} ${politician.unaccentedFamilyName}`,
                 stages: careerStages,
                 color:
                     politician.parties[congressNum] === "D"
@@ -329,6 +498,7 @@
         }
 
         let selectedPaths = new Set();
+        let currentPoliticians = [];
 
         function updateVisualization(congressNum) {
             // Clear existing viz
@@ -340,8 +510,14 @@
                     const activePoliticians = Object.values(data).filter((p) => p.jobs[congressNum] !== null);
                     const allPoliticians = activePoliticians.map((p) => processCareerStages(p, congressNum));
                     sampledPoliticians = allPoliticians;
+                    currentPoliticians= allPoliticians;
                     //.sort(() => 0.5 - Math.random());
                     //.slice(0, 500);
+
+                    const searchInput = document.querySelector('.search-input');
+                    const dropdown = document.querySelector('.dropdown');
+
+                    updateDropdown();
 
                     const nodeTraffic = new Map(
                         stages.map((stage) => [stage.id, { count: 0, pathIndices: [], stageId: stage.id }]),
@@ -465,7 +641,7 @@
                             .line()
                             .x((d) => d.x)
                             .y((d) => d.y)
-                            .curve(d3.curveCatmullRom.alpha(0.5));
+                            .curve(d3.curveCatmullRom.alpha(0.3));
 
                         sampledPoliticians.forEach((politician, pathIndex) => {
                             const pathPoints = politician.stages
@@ -490,6 +666,111 @@
                                 .on("mouseout", handlePathMouseOut);
                         });
                     }
+
+                    function updateDropdown(filter = '') {
+                        const filteredPoliticians = currentPoliticians.filter(p =>
+                            p.unaccentedName.toLowerCase().includes(filter.toLowerCase())
+                        );
+
+                        dropdown.innerHTML = filteredPoliticians
+                            .map(p => `<div class="dropdown-item" data-index="${currentPoliticians.indexOf(p)}">${p.name} (${p.party}-${p.state})</div>`)
+                            .join('');
+
+                        dropdown.classList.toggle('show', filter !== '');
+                    }
+
+                    searchInput.addEventListener('input', (e) => {
+                        updateDropdown(e.target.value);
+                    });
+
+                    dropdown.addEventListener('mouseover', (e) => {
+                        const item = e.target.closest('.dropdown-item');
+                        if (item) {
+                            const index = parseInt(item.dataset.index);
+                            const politician = currentPoliticians[index];
+                            const path = svg.selectAll('.path').filter(d => d.name === politician.name).node();
+                            if (path) {
+                                handlePathMouseOver(
+                                    {target: path, pageX: e.pageX, pageY: e.pageY},
+                                    politician
+                                );
+                            }
+                        }
+                    });
+
+                    dropdown.addEventListener('mouseout', (e) => {
+                        const item = e.target.closest('.dropdown-item');
+                        if (item) {
+                            handlePathMouseOut();
+                        }
+                    });
+
+                    dropdown.addEventListener('click', (e) => {
+                        const item = e.target.closest('.dropdown-item');
+                        if (item) {
+                            const index = parseInt(item.dataset.index);
+                            const politician = currentPoliticians[index];
+                            
+                            // Clear previous persistent highlights
+                            svg.selectAll(".path")
+                                .classed("persistent-highlight", false)
+                                .style("opacity", 0.6)
+                                .style("stroke-width", "1.5px");
+                                
+                            // Add persistent highlight to selected path
+                            svg.selectAll(".path")
+                                .filter(d => d.name === politician.name)
+                                .classed("persistent-highlight", true)
+                                .style("opacity", 1)
+                                .style("stroke-width", "3px");
+                                
+                            // Update search input with selected name
+                            searchInput.value = politician.name;
+                            dropdown.classList.remove('show');
+                            
+                            // Highlight relevant nodes
+                            svg.selectAll(".node, .node-label, .label-line")
+                                .style("opacity", 0.1);
+                                
+                            politician.stages.forEach(stageId => {
+                                svg.selectAll(".node")
+                                    .filter(d => d.id === stageId)
+                                    .style("opacity", 1);
+                                svg.selectAll(".node-label")
+                                    .filter(d => d.id === stageId)
+                                    .style("opacity", 1);
+                                svg.selectAll(".label-line")
+                                    .filter(d => d.id === stageId)
+                                    .style("opacity", 1);
+                            });
+                        }
+                    });
+
+                    svg.on("click", (event) => {
+                        // Check if click was directly on the SVG background
+                        if (event.target === svg.node()) {
+                            // Reset all highlighting
+                            svg.selectAll(".path")
+                                .style("opacity", 0.6)
+                                .style("stroke-width", "1.5px")
+                                .each(function() {
+                                    d3.select(this).classed("persistent-highlight", false);
+                                });
+                                
+                            svg.selectAll(".node, .node-label, .label-line")
+                                .style("opacity", 1);
+                                
+                            // Hide tooltip
+                            tooltip.transition()
+                                .duration(500)
+                                .style("opacity", 0);
+                                
+                            // Clear search input and hide dropdown
+                            document.querySelector('.search-input').value = '';
+                            document.querySelector('.dropdown').classList.remove('show');
+                        }
+                    });
+
                 })
                 .catch((error) => {
                     console.error("Error loading the JSON file:", error);
@@ -573,17 +854,32 @@
                 .style("left", event.pageX + 10 + "px")
                 .style("top", event.pageY - 28 + "px")
                 .style("color", politician.color);
+
+            if (!d3.select(event.target).classed("persistent-highlight")) {
+                svg.selectAll(".path")
+                    .filter(d => !d3.select(d).classed("persistent-highlight"))
+                    .style("opacity", 0.05)
+                    .style("stroke-width", "1.5px");
+            }
         }
 
         // Modify the handlePathMouseOut function:
         function handlePathMouseOut(event) {
-            // Restore all paths, nodes, and labels
-            svg.selectAll(".path").style("opacity", 0.6).style("stroke-width", "1.5px");
-            svg.selectAll(".node").style("opacity", 1);
-            svg.selectAll(".node-label").style("opacity", 1);
-            svg.selectAll(".label-line").style("opacity", 1);
+            svg.selectAll(".path")
+                .each(function(d) {
+                    const path = d3.select(this);
+                    if (!path.classed("persistent-highlight")) {
+                        path.style("opacity", 0.6)
+                            .style("stroke-width", "1.5px");
+                    }
+                });
+                
+            svg.selectAll(".node, .node-label, .label-line")
+                .style("opacity", 1);
 
-            tooltip.transition().duration(500).style("opacity", 0);
+            tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
         }
 
         function calculateOffset(traffic, pathIndex) {
@@ -602,8 +898,7 @@
 
             // Calculate base separation based on number of paths
             const totalPaths = traffic.pathIndices.length;
-            const baseSeparation = 0.16 * (0.5 * democratPaths.length + 0.5 * republicanPaths.length); // SPREAD BTWN PARTIES
-            // Scales with paths but capped between 10 and 30
+            const baseSeparation = 0.1 * (0.5 * democratPaths.length + 0.5 * republicanPaths.length); // SPREAD BTWN PARTIES
 
             // Calculate position within party group
             const partyPaths =
@@ -621,7 +916,7 @@
             }
 
             // Add spread within party group
-            return baseOffset + (partyPosition * spread - totalWidth / 2);
+            return baseOffset + (partyPosition * spread - totalWidth / 3);
         }
 
     </script>
