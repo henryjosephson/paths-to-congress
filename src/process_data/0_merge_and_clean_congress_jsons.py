@@ -6,6 +6,7 @@ import pandas as pd
 BIOGUIDES_PATH = (
     Path(os.path.abspath(__file__)).parent.parent.parent
     / "data"
+    / "raw"
     / "BioguideProfiles"  # .parent
 )
 

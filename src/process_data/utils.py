@@ -1,3 +1,64 @@
+"""utils"""
+
+SYSTEM_PROMPT = """You're a data analyst, tasked with analyzing whether certain
+career milestones pertain based upon a biography you're given. I will give you
+a biography, a list of JSON keys, and a brief description for each key. Your
+job will be to read through the biography, then, for each JSON key, return
+either the part of the biography that makes you think that key pertains or the
+boolean `false`. If there's more than one part of the biography that makes you
+think the key pertains, return only the first part of the biography that makes
+you think the key pertains.
+
+For example, with JSON keys
+    ['communityCollege', 'eliteCollege', 'publicCollege', 'privateCollege', 'noBA']
+and a biography that starts:
+    "a Representative from Missouri; born in Baytown, Harris County, Tex., October 4, 1963; graduated from Ross S. Sterling High School, Baytown, Tex., 1982; attended Lee College, Baytown, Tex.; attended Southwest Texas State College, San Marcos, Tex.; attended University of Texas, Austin, Tex.; television news anchor;..."
+
+Your response should be as follows:
+{
+    "communityCollege": "Lee College, Baytown, Tex.",
+    "eliteCollege": false,
+    "publicCollege": "attended Southwest Texas State College, San Marcos, Tex.",
+    "privateCollege": false,
+    "noBA": false
+}
+"""
+
+KEYS_AND_EXPLANATIONS = """
+    'communityCollege', # does this person have an associates degree and/or attend a community college?
+    'eliteCollege', # did this person complete their UNDERGRAD education at an Ivy League School, Stanford, UChicago, Duke, or MIT? say False if it's a grad degree
+    'publicCollege', # undergrad at public school
+    'privateCollege', # ud
+    'noBA', # no bachelors degree
+    'lawSchool', # JD, LLM, or any other law degree
+    'medDegree', # include DOs and nursing degrees, too
+    'doctorate',
+    'mba',
+    'otherMasters',
+    'military',
+    'lawyerPrivatePractice',
+    'publicLawyerOrJudge',
+    'prevUnsuccessfulCandidate',
+    'partyPolitics', # did they ever work for the local/state/national branch of Democratic/Republican/third party? don't include "elected as a Democrat" or "elected as a Republican"
+    'sciOrEng', # ever have a job
+    'religion',
+    'healthcare',
+    'blueCollarOrServiceJob',
+    'education', # only include people who were teachers / professors / administrators
+    'nonprofitsAndUnions',
+    'sports', # both players and coaches
+    'media',
+    'realEstate',
+    'lawEnforcement',
+    'farmingOrRanching',
+    'businessOrManagement',
+    'lobbyingOrPacs',
+    'localGov',
+    'stateLeg',
+    'electedFedOrStateOffice', # don't include being in the state legislature, DO NOT include being elected to congress. CA high speed rail authority isn't elected.
+    'nonElectedGovJob' # everything from staffer/aide in a legislature to being an appointed official
+"""
+
 state_list = [
     "Alabama",
     "Alaska",
