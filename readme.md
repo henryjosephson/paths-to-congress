@@ -10,17 +10,8 @@ Once `processed-bios.json` exists in `data/processed/`, you can then open `main.
 
 ## todos:
 
-- [x] make circle size grow dynamically with the number of paths that go through it
-- [x]  make it so that there's a `house` end node and a `senate` end node
+- [ ] move labels for visibility
 - [ ] rearrange dots for better spacing (ongoing)
 - [ ] add background lines
-- [x]  make it so that when you hover over a path, you highlight all the (labeled) nodes that the path goes through 
-  - [ ] probably means making all extant paths dimmer?
-- [x] add invisible control nodes to reduce path overlap
-- [x] give all the democrats positive offsets and the republicans negative offsets to make the sorting look nicer at each node
-- [x] get the paths to actually center at each node (this might have to be manual-er in final product — e.g. `customPublicCollegeCirclePlacement`)
-- [x] decrease spacing and path thickness so full version doesn't take up the entire screen 
 - [ ] let you search by individual, party, state
-  
-- [x] build pipeline to let claude parse bios into the relevant json format (important for going through the thousands of congresspeople from prev years)
-
+- [ ] add writeup (sidescrolling above)
