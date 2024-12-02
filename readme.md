@@ -2,11 +2,11 @@ trying to reproduce https://www.nytimes.com/interactive/2019/01/26/opinion/sunda
 
 ## Usage
 
-I'm not uploading the data to github, because it would be too big.
+I'm not uploading the data to github, because it would be too big. Plus, I made Claude do most of the heavy lifting (for around $5), so there will probably be a bit of noise if you try to exactly re-run my analysis scripts. 
 
-Luckily, you can download and clean the data I'm using by `cd`ing to the project root (if you're reading this, you're probably already there), then running `bash src/process_data/setup_data.sh`.
+You can do either by running `bash src/process_data/setup_data.sh` and following the instructions.
 
-From there, you can then open `main.html` with your favorite live server extension (I like [this one](https://open-vsx.org/extension/ms-vscode/live-server)) and you're all set.
+Once `processed-bios.json` exists in `data/processed/`, you can then open `main.html` with your favorite live server extension (I like [this one](https://open-vsx.org/extension/ms-vscode/live-server)) and you're all set.
 
 ## todos:
 
