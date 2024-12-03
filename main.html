@@ -316,7 +316,7 @@ career transitions — but the core visualization logic is fairly straightforwar
 <hr>
 <br>
 <div style="text-align: center; width: 33%; margin: 0 auto;">
-    <img src="/resources/319px-Official_congressional_portrait_of_Nan_Hayworth.jpg" alt="Congressional Portrait of Nan Hayworth" style="width: 100%; height: auto;">
+    <img src="./resources/319px-Official_congressional_portrait_of_Nan_Hayworth.jpg" alt="Congressional Portrait of Nan Hayworth" style="width: 100%; height: auto;">
 </div>
 <br>
 <i>
@@ -1242,7 +1242,7 @@ career transitions — but the core visualization logic is fairly straightforwar
                 svg.selectAll("*")
                     .remove();
                 selectedPaths.clear();
-                d3.json("../data/processed/processed-bios.json")
+                d3.json("./data/processed/processed-bios.json")
                     .then((data) => {
                         const activePoliticians = Object.values(data)
                             .filter((p) => p.jobs[congressNum] !== null);

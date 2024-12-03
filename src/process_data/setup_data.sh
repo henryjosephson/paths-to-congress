@@ -1,8 +1,14 @@
 #!/bin/bash
 
+set -e
+
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-PROCESSED_FILE="${PROJECT_ROOT}/data/processed/processed-bios.json"
+PROCESSED_DIR="${PROJECT_ROOT}/data/processed"
+PROCESSED_FILE="${PROCESSED_DIR}/processed-bios.json"
 DOWNLOAD_URL="https://drive.usercontent.google.com/download?id=1oBKjHDWkscpAJUrrh1NVi4CbboyD8lvq&export=download"
+
+echo "Creating directory structure..."
+mkdir -p "${PROCESSED_DIR}"
 
 if [ -f "$PROCESSED_FILE" ]; then
     echo "File already exists at $PROCESSED_FILE"
@@ -12,24 +18,25 @@ fi
 read -p "Would you like to download the processed file directly? (yes/no): " choice
 
 if [[ $choice =~ ^[Yy].*$ ]]; then
-    mkdir -p ../data/processed
+    echo "Downloading processed file..."
     curl -L "$DOWNLOAD_URL" -o "$PROCESSED_FILE" || {
         echo "Download failed"
+        echo "Error details:"
+        echo "Target directory: ${PROCESSED_DIR}"
+        echo "Target file: ${PROCESSED_FILE}"
+        echo "Please ensure you have write permissions to this location"
         exit 1
     }
-    echo "Download completed successfully"
-    exit 0
+
+    if [ -f "$PROCESSED_FILE" ]; then
+        echo "Download completed successfully"
+        exit 0
+    else
+        echo "Download verification failed"
+        exit 1
+    fi
 fi
 
-DATA_DIR="${PROJECT_ROOT}/data/raw"
-VENV_DIR="${PROJECT_ROOT}/.venv"
-BIOGUIDE_ZIP="${DATA_DIR}/BioguideProfiles.zip"
-BIOGUIDE_DIR="${DATA_DIR}/BioguideProfiles"
-
-# Exit on error
-set -e
-
-# Store the project root directory (assuming script is in src/process_data/)
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 DATA_DIR="${PROJECT_ROOT}/data/raw"
 VENV_DIR="${PROJECT_ROOT}/.venv"
@@ -38,23 +45,18 @@ BIOGUIDE_DIR="${DATA_DIR}/BioguideProfiles"
 
 echo "Setting up data processing environment..."
 
-# Create and activate virtual environment if it doesn't exist
 if [ ! -d "$VENV_DIR" ]; then
     echo "Creating virtual environment..."
     python3 -m venv "$VENV_DIR"
 fi
 
-# Activate virtual environment
 source "${VENV_DIR}/bin/activate"
 
-# Install requirements
 echo "Installing requirements..."
 pip install -r "${PROJECT_ROOT}/requirements.txt"
 
-# Create data directory if it doesn't exist
 mkdir -p "$DATA_DIR"
 
-# Download and process data
 echo "Downloading Bioguide data..."
 if [ ! -f "$BIOGUIDE_ZIP" ]; then
     curl -L "https://bioguide.congress.gov/bioguide/data/BioguideProfiles.zip" -o "$BIOGUIDE_ZIP"
@@ -67,10 +69,8 @@ echo "Removing zip file..."
 rm "$BIOGUIDE_ZIP"
 
 echo "Running data processing scripts..."
-# Change to process_data directory
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-# Run the Python scripts
 python 0_merge_and_clean_congress_jsons.py
 python 1_add_helper_cols.py
 
