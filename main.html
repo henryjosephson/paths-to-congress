@@ -57,13 +57,13 @@ How, though, do they get to the Capitol?
 The <i>New York Times</i> built a 
 <a href="https://www.nytimes.com/interactive/2019/01/26/opinion/sunday/paths-to-congress.html">
     beautiful visualization
-</a> when they investigated this back in 2019, but their analysis is long-
-outdated and was a pain to replicate — it's entirely closed-source! They also
-restricted themselves to the then-current 116th Congress. What about the 117
-(soon to be 118!) others?
+</a> when they investigated this back in 2019 (shoutout Sahil Chinoy and 
+Jessia Ma!), but their analysis is long-outdated and was a pain to replicate —
+it's entirely closed-source! They also restricted themselves to the then-current
+116th Congress. What about the 117 (soon to be 118!) others?
 <br><br>
-For this assignment, I set out to answer this question — what did the people
-who are currently in congress do before they got there?
+Here, I set out to answer this question — what did the people who are currently
+in congress do before they got there?
 <br><br>
 <h3>Undergrad</h3>
 For starters, most of them went to college!
@@ -204,12 +204,50 @@ people would be more likely to volunteer than more liberal people.
 <br>
 <h3>Business</h3>
 <br>
-The other huge trend I couldn't help but notice with the 
-<br>
-<h3>Appendix A: Methodology</h3><br>
-I built the dataset by merging and cleaning congressional biographies through 
-four steps:
+The other huge trend I couldn't help but notice from the '80s to today was the
+increase in congresspeople claiming business experience:
 <br><br>
+<div class="highlight-box" 
+        data-highlight-condition="politician.stages.includes('businessOrManagement')"
+        data-highlight-description="highlight military">
+    Mouse over to highlight all congresspeople who claim business experience
+</div>
+<br><br>
+We went from 33% of congress claiming business experience in the 100th congress
+to 39% in the 116th congress to 44% in the 118th. 
+<br><br>
+I'm not sure why this is, but (if I had to guess) I'd mention substitution with
+people who'd otherwise be in the military going to the private sector, but I'm
+super unsure.
+<br><br>
+Even though the size trend is the opposite of the military, the partisanship
+trend is in the same direction: <i>like congresspeople who served in the military,
+    congresspeople who claim business experience have become more Republican.
+</i> 48% of the businesspeople in the 100th congress were Democrats, but this
+number was down to 39% in the 116th congress, and down to 35% in the 118th.
+<br><br>
+Again, I don't want to get causal, but it seems plausible that this shift could
+be at least partially explained by the influx of people claiming business experience.  
+<br><br>
+<h3>Previous Government Experience</h3><br>
+The last thing I'll touch on in this writeup is the fraction of congresspeople
+with previous government experience. In their analysis, Chinoy and Ma note just
+how many new representatives have no previous government experience. I calculated 
+government experience a little differently from them (they didn't count unelected 
+staff roles in legislative or executive offices, I did), so we got slightly different
+numbers: when you don't count staff positions, you find that around 20% of the
+116th congress had no prior government experience, but when you do allow staff
+positions, that drops to around 16%. 
+<br><br>
+I didn't calculate things with their methodology for the 118th and 100th congresses,
+so only take the trends — where I found around 16% of the House had no prior
+government experience in the 116th congress, I found that 10% had none in the
+100th congress and that 17% had none in the 118th — a clear increase, but it's
+unclear how <i>significant</i> of an interest.
+<br>
+<br>
+<h3>Methodology</h3><br>
+
 Congress provides a JSON database of every congressperson's self-provided
 biography, along with some other biographical information, at 
 <a href="https://bioguide.congress.gov/">https://bioguide.congress.gov/</a>. 
@@ -230,11 +268,12 @@ Then, for every senator and representative who's served since 1987, I tracked:
     <li>Which state they represented (I pulled this from the first line of their bio)</li>
     <li>Whether they served as both Representative and Senator (a few bios needed fixing here)</li>
 </ul><br>
-The actual text of the biographies is very nicely and consistently formatted —
-it's all career stages separated by semicolons. I created indicator variables
-for a variety of career paths — <code>false</code> if, for example, the congressperson
+Finally, I finished processing by creating indicator variables for a variety of
+career paths — <code>false</code> if, for example, the congressperson
 in question didn't go to, e.g., community college, and <code>Western Wyoming
-Community College</code> if they went to WWCC.
+Community College</code> if they went to WWCC. The actual text of the biographies
+is very nicely and consistently formatted — it's all career stages separated by
+semicolons.
 <br><br>
 I initially did this manually to get a feel for the data, but I wrote a script
 to have Claude automatically code the thousands of bios since the '80s. This
@@ -245,9 +284,36 @@ worth it, though.
 Finally, I merged in another dataset to get the specific district each representative
 represented for each congress.
 <br><br>
-With respect to the 
-<br>
-
+Once I had the dataset, I processed it with d3 to create the visualzation.
+<br><br>
+At a high level, I processed the graph data through three main steps:
+<br><br>
+First, I created a set of fixed coordinates for each milestone (like "Law 
+School" or "Military") using a custom coordinate system. The x-axis sorta 
+corresponds with time, but I sacrificed time consistency for the sake of making
+all the paths proceed roughly left-to-right and only having one node per milestone.
+<br><br>
+I then added a bunch of "control points" — invisible nodes that help make the
+paths curve nicely — between major milestones.
+<br><br>
+Next, for each congressperson, I created a line that connects their milestones
+in chronological order. I used d3's curveCatmullRom to make the lines curve
+smoothly through their points. To avoid too many paths overlapping, I added a
+small vertical offset to each line based on the party of the congressperson
+and how many other paths went through the same nodes. This also makes nodes with
+lots of pahts though them appear larger.
+<br><br>
+Finally, I drew circles at each milestone whose size corresponds to how many
+paths go through them. The lines connecting milestones to their labels are
+dashed to distinguish them from the actual paths. I also added mouseover effects
+that highlight specific paths and show tooltips with more information.
+<br><br>
+The final product wasn't quite as clean as the NYT version (they must've
+manually adjusted some of their paths), but I think it gets the point across!
+The code itself was pretty messy — lots of edge cases for different types of
+career transitions — but the core visualization logic is fairly straightforward.
+<br><br>
+<hr>
 <br>
 <div style="text-align: center; width: 33%; margin: 0 auto;">
     <img src="/resources/319px-Official_congressional_portrait_of_Nan_Hayworth.jpg" alt="Congressional Portrait of Nan Hayworth" style="width: 100%; height: auto;">
