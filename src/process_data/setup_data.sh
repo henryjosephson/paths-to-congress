@@ -2,7 +2,7 @@
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 PROCESSED_FILE="${PROJECT_ROOT}/data/processed/processed-bios.json"
-DOWNLOAD_URL="https://drive.usercontent.google.com/download?id=10LFUPXZ5GzMlsl_qjHeA5ByxGwJ2aIHE&export=download"
+DOWNLOAD_URL="https://drive.usercontent.google.com/download?id=1oBKjHDWkscpAJUrrh1NVi4CbboyD8lvq&export=download"
 
 if [ -f "$PROCESSED_FILE" ]; then
     echo "File already exists at $PROCESSED_FILE"
