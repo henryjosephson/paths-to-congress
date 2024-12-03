@@ -20,11 +20,11 @@ body {
 #side-panel {
     width: 340px;
     height: 85vh;
+    margin-top: 110px;
     background-color: white;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    margin-top: auto;
 }
 
 #main-content {
@@ -94,8 +94,8 @@ body {
 }
 
 .node {
-    fill: white;
-    stroke: black;
+    fill: none;
+    stroke: var(--text-color);
     stroke-width: 1;
 }
 
@@ -126,4 +126,95 @@ body {
     font-family: Arial, sans-serif;
     font-size: 12px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --border-color: #dddddd;
+    --link-color: #0066cc;
+    --link-hover-color: #004499;
+}
+
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #ffffff;
+    --border-color: #333333;
+    --link-color: #66b3ff;
+    --link-hover-color: #99ccff;
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: var(--link-hover-color);
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#side-panel, #visualization, .search-input, .congress-select, .dropdown, .tooltip {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+.dropdown-item:hover {
+    background: var(--border-color);
+}
+
+.highlight-box {
+    padding: 1rem;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-block;
+    margin: 1rem 0;
+    color: var(--text-color);
+}
+
+.highlight-box:hover {
+    background: var(--border-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.node-label, .congress-label {
+    fill: var(--text-color);
+}
+
+.label-line {
+    stroke: var(--text-color);
+}
+
+#theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    background: var(--bg-color);
+    border: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+#theme-toggle svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--text-color);
 }

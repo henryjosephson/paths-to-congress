@@ -11,6 +11,12 @@
     </head>
 
     <body>
+        <button id="theme-toggle" aria-label="Toggle dark mode">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="12" fill="color"/>
+            </svg>
+        </button>
+
         <div id="side-panel">
             <div class="search-container">
                 <input type="text" class="search-input"
@@ -19,42 +25,156 @@
                 <div class="dropdown"></div>
             </div>
             <div id="writeup">
-                <h1>It's not plagiarism if you cite them</h1>
-                <h3>A </h3> Lorem ipsum dolor sit amet, consectetur adipiscing
-                elit. Sed do eiusmod tempor incididunt ut labore et dolore magna
-                aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-                aute irure dolor in reprehenderit in voluptate velit esse cillum
-                dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                cupidatat non proident, sunt in culpa qui officia deserunt
-                mollit anim id est laborum. <br><br> Nam libero tempore, cum
-                soluta nobis est eligendi optio cumque nihil impedit quo minus
-                id quod maxime placeat facere possimus. Temporibus autem
-                quibusdam et aut officiis debitis aut rerum necessitatibus saepe
-                eveniet ut et voluptates repudiandae sint et molestiae non
-                recusandae. <br><br> Nemo enim ipsam voluptatem quia voluptas
-                sit aspernatur aut odit aut fugit, sed quia consequuntur magni
-                dolores eos qui ratione voluptatem sequi nesciunt. Neque porro
-                quisquam est, qui dolorem ipsum quia dolor sit amet,
-                consectetur, adipisci velit, sed quia non numquam eius modi
-                tempora incidunt ut labore et dolore magnam aliquam quaerat
-                voluptatem. <br><br> At vero eos et accusamus et iusto odio
-                dignissimos ducimus qui blanditiis praesentium voluptatum
-                deleniti atque corrupti quos dolores et quas molestias excepturi
-                sint occaecati cupiditate non provident, similique sunt in culpa
-                qui officia deserunt mollitia animi, id est laborum et dolorum
-                fuga. <br><br> Quis autem vel eum iure reprehenderit qui in ea
-                voluptate velit esse quam nihil molestiae consequatur, vel illum
-                qui dolorem eum fugiat quo voluptas nulla pariatur? Itaque earum
-                rerum hic tenetur a sapiente delectus, ut aut reiciendis
-                voluptatibus maiores alias consequatur aut perferendis doloribus
-                asperiores repellat.
+
+<h1>Paths to Congress</h1>
+<h2>A visualization by Henry Josephson</h2>
+<br>
+Dread it, run from it: every two years, a new election arrives. And with every
+new election comes a new crop of congresspeople, giving the people a chance
+to choose new lawmakers to represent them in Washington.
+<br><br>
+How, though, do they get to the Capitol?
+<br><br>
+The <i>New York Times</i> built a 
+<a href="https://www.nytimes.com/interactive/2019/01/26/opinion/sunday/paths-to-congress.html">
+    beautiful visualization
+</a> when they investigated this back in 2019, but their analysis is long-
+outdated and was a pain to replicate — it's entirely closed-source! They also
+restricted themselves to the then-current 116th Congress. What about the 117
+(soon to be 118!) others?
+<br><br>
+For this assignment, I set out to answer this question — what did the people
+who are currently in congress do before they got there?
+<br><br>
+<h3>Undergrad</h3>
+For starters, most of them went to college!
+<div class="highlight-box" 
+        data-highlight-condition="politician.stages.includes('noBA')"
+        data-highlight-description="highlight no undergrad">
+    Mouse over to highlight all congresspeople without a bachelor's degree
+</div>
+<br>
+This has changed since the NYT's original investigation in 2019 — back then,
+About 5 percent of representatives don't have a bachelor's degree, compared
+with about two-thirds of Americans 25 and older. Since then, though, the fraction
+of Americans with less than a bachelor's has <a href="https://www.census.gov/newsroom/press-releases/2023/educational-attainment-data.html">
+    slightly (though not significantly) increased
+</a> to around 38%, and the fraction of congresspeople without an undergraduate
+degree has increased by a factor of around 1.5x, from around 6% of the legislature
+to around 13%. Overall, though, this is a marked increase from the 100th Congress
+in the late 1980s, when only ~1% of the legislature got there without a BA!
+<br><br>
+Notably, only one person without a BA
+(<a href="https://en.wikipedia.org/wiki/Markwayne_Mullin">Markwayne Mullin of
+    Oklahoma</a>) currently serves in the Senate.
+<br><br>
+It's also notable just how many congresspeople went to elite colleges (defined
+as MIT, Stanford, the Ivies, Duke, and — best for last — the University of Chicago):
+<div class="highlight-box" 
+        data-highlight-condition="politician.stages.includes('eliteCollege')"
+        data-highlight-description="highlight elite college">
+    Mouse over to highlight all congresspeople who went to elite colleges
+</div>
+These few schools, which have single-digit acceptance rates and are about as
+elite as you can get, have pretty consistently represented around 16% of congress
+since the 80s — around 10% in the House and around 20% in the senate.
+<br><br>
+Interestingly, Yale had 20 legislators in the 100th Congress 40 years ago, but
+only 7 in the 116th and only 8 in the 118th. I wonder why they lost a step?
+<br><br>
+The partisan lean of the elites has also changed over time — look at how the blue
+and red paths change in the "Elite college" circle as you change the congress.
+While 55% of elite college graduates in congress were Democrats in the 100th
+Congress, 68% were Democrats in the 116th, when the NYT did their analysis. Today,
+five years later, that number is up to 71%.
+<br><br>
+<h3>Grad School</h3>
+The fraction of congress with a graduate degree has stayed consistent, at around
+two thirds. This is more than 4x the fraction of Americans that had a grad degree
+in 2022! Most interestingly, though, the number of congresspeople with law degrees
+is disproportionate but decreasing — down from 50% of congress in the '80s to ~40%
+in 2019 to ~33% today.
+<br><br>
+(Check this by changing the dropdown in the top left!)
+<br><br>
+A former president of the NY State Bar Association <a href="https://archive.is/X3lnO">
+    wrote this year
+</a> about a similar trend in New York state. There, he notes two main obstacles:
+<br><br>
+First, pay. Today, <a href="https://www.ntu.org/foundation/tax-page/salaries-for-members-of-congress-supreme-court-justices-and-the-president">
+congresspeople make $174,000 per year</a>. This is a good deal of money, but lawyer salaries — <a href="https://www.biglawinvestor.com/bimodal-salary-distribution-curve/">
+    bimodal
+</a> though they may be at the start — don't seem to be sufficiently higher to
+warrant the public scrutiny and move to DC.
+<br><br>
+Second, it seems to be tough to keep up a private practice while also serving
+in office. Ethics laws, combined with the fact that being a congressperson is
+itself a full-time job — mean that lawyers can't have their cake and eat it, too.
+This doesn't mean no lawyers will give up their private practices (just look at
+the <b>lawyer (private practice)</b> node!), but it means that fewer will.
+<br><br>
+Before leaving the lawyer section, I'll link to an interesting <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2898140">econ paper</a> 
+arguing that most of the reason lawyers are so well-represented in congress isn't
+just because they run more — "Conditional on running, lawyers win at twice the
+rate of candidates from other backgrounds. Contrary to prevailing theories in
+the literature, voters do not reward candidates with backgrounds in law.
+Rather, lawyers win because of a sizable competitive advantage in early
+fundraising, owing in large part to their professional networks." No commentary
+here — just interesting!
+<br><br>
+<h3>Military Experience</h3>
+The fraction of congresspeople with military experience is the 
+
+
+<div class="highlight-box" 
+        data-highlight-condition="politician.stages.includes('military')"
+        data-highlight-description="highlight military">
+    Mouse over to highlight all congresspeople who served in the military
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<h3>Appendix A: Methodology</h3><br>
+Fortunately, 
+<br>
+
+<br>
+<div style="text-align: center; width: 33%; margin: 0 auto;">
+    <img src="/resources/319px-Official_congressional_portrait_of_Nan_Hayworth.jpg" alt="Congressional Portrait of Nan Hayworth" style="width: 100%; height: auto;">
+</div>
+<br>
+<i>
+    This project is dedicated to 
+    <a href="https://en.wikipedia.org/wiki/Nan_Hayworth">Nan Hayworth</a>,
+    former congresswoman for NY's 19th district, whose name sent me on a wild
+    goose chase (pandas was "helpfully" reading her name as NaN).
+</i>
+<br>
+<br>
+<br>
+
             </div>
         </div>
         <div id="main-content">
             <div id="visualization"></div>
         </div>
         <script>
+
+            const themeToggle = document.getElementById('theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            if (prefersDarkScheme.matches) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+            });
+
             const mainContent = document.getElementById('main-content');
             const width = mainContent.clientWidth;
             const height = window.innerHeight;
@@ -209,8 +329,8 @@
                         x: width * 0.1,
                         y: height * 0.7,
                         label: "Public college",
-                        labelX: width * 0.1,
-                        labelY: height * 0.9,
+                        labelX: width * 0.12,
+                        labelY: height * 0.92,
                     },
                     //{ id: "publicCollegeAfter", x: width * 0.12, y: height * 0.71, label: "", labelX: 0, labelY: 0  },
                     {
@@ -255,7 +375,7 @@
                         x: width * 0.1,
                         y: height * 0.58,
                         label: "No BA",
-                        labelX: width * 0.08,
+                        labelX: width * 0.09,
                         labelY: height * 0.86,
                     }, {
                         id: "lawSchool",
@@ -1050,7 +1170,7 @@
                                     return traffic / 8;
                                 })
                                 .style("fill", "none")
-                                .style("stroke", "#000")
+                                //.style("stroke", "#000")
                                 .style("stroke-width", 1)
                                 .on("mouseover", handleNodeMouseOver)
                                 .on("mouseout", handleNodeMouseOut);
@@ -1075,7 +1195,7 @@
                                         d.labelY + (textHeight * 1.2) : // Add some padding
                                         d.labelY;
                                 })
-                                .style("stroke", "#666")
+                                //.style("stroke", "#666")
                                 .style("stroke-width", 1)
                                 .style("stroke-dasharray", "3,3");
                         }
@@ -1353,7 +1473,6 @@
                         .style("stroke-width", "1.5px");
                 }
             }
-            // Modify the handlePathMouseOut function:
             function handlePathMouseOut(event) {
                 svg.selectAll(".path")
                     .each(function(d) {
@@ -1371,30 +1490,29 @@
             }
 
             function calculateOffset(traffic, pathIndex) {
-                // Skip offset calculation for certain nodes
                 if (["startNode", "congressRep", "congressSen"].includes(traffic
                         .stageId)) {
                     return 0;
                 }
                 const politician = sampledPoliticians[pathIndex];
                 const spread = 0.35; // Spread between paths within same party
-                // Separate paths by party
+
                 const democratPaths = traffic.pathIndices.filter((i) =>
                     sampledPoliticians[i].party === "D");
                 const republicanPaths = traffic.pathIndices.filter((i) =>
                     sampledPoliticians[i].party === "R");
                 const otherPaths = traffic.pathIndices.filter((i) => !["D", "R"]
                     .includes(sampledPoliticians[i].party));
-                // Calculate base separation based on number of paths
+
                 const totalPaths = traffic.pathIndices.length;
-                const baseSeparation = 0.1 * (0.5 * democratPaths.length + 0.5 *
+                const baseSeparation = 0.19 * (0.5 * democratPaths.length + 0.5 *
                     republicanPaths.length); // SPREAD BTWN PARTIES
-                // Calculate position within party group
+
                 const partyPaths = politician.party === "D" ? democratPaths :
                     politician.party === "R" ? republicanPaths : otherPaths;
                 const partyPosition = partyPaths.indexOf(pathIndex);
                 const totalWidth = (partyPaths.length - 1) * spread;
-                // Calculate base offset by party
+
                 let baseOffset = 0;
                 if (politician.party === "D") {
                     baseOffset = -baseSeparation;
@@ -1404,6 +1522,56 @@
                 // Add spread within party group
                 return baseOffset + (partyPosition * spread - totalWidth / 3);
             }
+
+            document.querySelectorAll('.highlight-box').forEach(box => {
+                box.addEventListener('mouseover', (event) => {
+                    const condition = box.dataset.highlightCondition;
+
+                    svg.selectAll(".path")
+                    .style("opacity", 0.05)
+                    .style("stroke-width", "1.5px");
+
+                    svg.selectAll(".path")
+                    .filter(politician => eval(condition))
+                    .style("opacity", 1)
+                    .style("stroke-width", "3px");
+
+                    // Dim all nodes and labels
+                    svg.selectAll(".node, .node-label, .label-line")
+                    .style("opacity", 0.1);
+
+                    // Highlight nodes used in matching paths
+                    svg.selectAll(".path")
+                    .filter(politician => eval(condition))
+                    .each(politician => {
+                        politician.stages.forEach(stageId => {
+                        svg.selectAll(".node")
+                            .filter(d => d.id === stageId)
+                            .style("opacity", 1);
+                        svg.selectAll(".node-label")
+                            .filter(d => d.id === stageId)
+                            .style("opacity", 1);
+                        svg.selectAll(".label-line")
+                            .filter(d => d.id === stageId)
+                            .style("opacity", 1);
+                        });
+                    });
+                });
+
+                box.addEventListener('mouseout', () => {
+                    svg.selectAll(".path")
+                    .each(function(d) {
+                        const path = d3.select(this);
+                        if (!path.classed("persistent-highlight")) {
+                        path.style("opacity", 0.6)
+                            .style("stroke-width", "1.5px");
+                        }
+                    });
+                    svg.selectAll(".node, .node-label, .label-line")
+                    .style("opacity", 0.8);
+                });
+                });
+
 
         </script>
     </body>
