@@ -17,7 +17,7 @@ client = Anthropic()
 
 
 def load_bios():
-    df = pd.read_json("../../data/processed/temp-bios-for-claude.json", index_col=0)
+    df = pd.read_json("../../data/processed/temp-bios-for-claude.json").T
     return df
 
 

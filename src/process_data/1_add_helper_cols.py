@@ -10,7 +10,16 @@ recentBios = bios.loc[
 ]
 
 recentBios = recentBios[
-    ["givenName", "familyName", "congresses", "profileText", "jobPositions"]
+    [
+        "usCongressBioId",
+        "givenName",
+        "familyName",
+        "unaccentedGivenName",
+        "unaccentedFamilyName",
+        "congresses",
+        "profileText",
+        "jobPositions",
+    ]
 ]
 
 del bios
@@ -78,5 +87,8 @@ for idx in [11757, 9656, 2107]:
     recentBios.loc[idx, "profileText"] = recentBios.loc[idx, "profileText"].replace(
         "a Representative from", "a Senator and a Representative from"
     )
+
+for col in ["unaccentedFamilyName", "unaccentedGivenName"]:
+    recentBios[col] = recentBios[col].str.replace(r"[^a-zA-Z -]", "", regex=True)
 
 recentBios.to_json("../../data/processed/temp-bios-for-claude.json", orient="index")
