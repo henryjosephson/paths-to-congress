@@ -27,7 +27,26 @@
             <div id="writeup">
 
 <h1>Paths to Congress</h1>
-<h2>A visualization by Henry Josephson</h2>
+<h2>by Henry Josephson</h2>
+<br>
+<hr>
+<br>
+On the right half of this page are the things congresspeople did before Congress.
+<br><br>
+Each line represents a 
+<span style="color: #268AB9;">―</span> Democratic or 
+<span style="color: #FF3C51;">―</span> Republican congressperson, and
+<span style="display: inline-block; width: 16px; height: 16px; border: 1px solid var(--text-color); border-radius: 50%; vertical-align: middle;"></span>
+circles are the major milestones on their path to the Capitol. 
+<br><br>
+You can mouse over paths to learn who they belong to, and you can also search
+congresspeople by name, state, and district in the box at the top left. The
+dropdown should let you choose any congress since 1987.
+<br><br>
+<i>Note that paths are not exhaustive, nor are they in chronological order.</i>
+<br>
+<br>
+<hr>
 <br>
 Dread it, run from it: every two years, a new election arrives. And with every
 new election comes a new crop of congresspeople, giving the people a chance
@@ -89,6 +108,17 @@ Congress, 68% were Democrats in the 116th, when the NYT did their analysis. Toda
 five years later, that number is up to 71%.
 <br><br>
 <h3>Grad School</h3>
+<div class="highlight-box" 
+        data-highlight-condition="
+        politician.stages.includes('lawSchool') ||
+        politician.stages.includes('medDegree') ||
+        politician.stages.includes('mba') ||
+        politician.stages.includes('doctorate') ||
+        politician.stages.includes('otherMasters')
+        "
+        data-highlight-description="highlight grad degrees">
+    Mouse over to highlight all congresspeople with a graduate degree
+</div>
 The fraction of congress with a graduate degree has stayed consistent, at around
 two thirds. This is more than 4x the fraction of Americans that had a grad degree
 in 2022! Most interestingly, though, the number of congresspeople with law degrees
@@ -123,21 +153,99 @@ fundraising, owing in large part to their professional networks." No commentary
 here — just interesting!
 <br><br>
 <h3>Military Experience</h3>
-The fraction of congresspeople with military experience is the 
-
+<br>
+The change in the fraction of congresspeople with military experience is one
+of the biggest changes I've noticed in this data. You don't even have to mouse
+over the box to notice the difference (but you should, it took me work to make!).
+Just look at how big the <i>military</i> node is in the 118th Congress, then
+flip back to the '80s — huge difference!
 
 <div class="highlight-box" 
         data-highlight-condition="politician.stages.includes('military')"
         data-highlight-description="highlight military">
     Mouse over to highlight all congresspeople who served in the military
 </div>
+
+It used to be the case that more than half of congress had served, and that the
+senate was significantly more militarized than the House -- in the 100th congress,
+around 53% of the house had served and a whopping 72% of the senate had!
 <br>
 <br>
+The reason is probably World War Two. After all, if you
+were 20 years old in the 1940s, you'd be in your late sixties/early 70s by the 
+time the 100th congress came around — prime legislatin' age. People who'd fought 
+in Korea in the '50s and Vietnam in the '60s would also be around electable age.
 <br>
 <br>
+Fortunately, since we haven't had mobilization on that scale since the '60s, it's
+no longer the case that most Americans have military experience, which means it
+makes a little more sense that most of congress doesn't either. The proportion
+of congresspeople with military experience has stayed around 20% since
+the Obama years.
+<br>
+<br>
+It's important to be clear that veterans are seriously overrepresented in congress,
+though. Even with representation at a 40-year low in the 118th congress ("only"
+18% of which are veterans), this is triple the fraction of the U.S. as a whole
+that have served (per <a href="https://www.pewresearch.org/short-reads/2023/11/08/the-changing-face-of-americas-veteran-population/">Pew Research in 2023</a>,
+that's around 6%).
+<br>
+<br>
+Interestingly, with this decline, congresspeople who have served have gotten
+more partisan — in the 100th congress, 54% of veterans were Democrats. 20 years
+later, only 32% of veterans were Democrats. And by 2022? A mere 27%. I'm not
+sure what to attribute this to — did the parties change views? Did military
+folks get more conservative? My hunch is that it has something to do with 
+the fact that the US military has been all-volunteer since the '70s. It'd take
+a while for this to propogate down to the people who're getting elected to
+congress, but it seems <i>prima facie</i> right to me that more conservative
+people would be more likely to volunteer than more liberal people.
+<br>
+<br>
+<h3>Business</h3>
+<br>
+The other huge trend I couldn't help but notice with the 
 <br>
 <h3>Appendix A: Methodology</h3><br>
-Fortunately, 
+I built the dataset by merging and cleaning congressional biographies through 
+four steps:
+<br><br>
+Congress provides a JSON database of every congressperson's self-provided
+biography, along with some other biographical information, at 
+<a href="https://bioguide.congress.gov/">https://bioguide.congress.gov/</a>. 
+After downloading their entire dataset, I dropped anyone who was both never listed
+as a senator and never listed as a representative (mostly 1700s lawmakers with
+basically no info) and added a new column tracking which congresses each person
+served in.
+<br><br>
+Next, I filtered to just keep the recent folks (sessions 100-118). Cutting off
+the data at the 100th congress was kinda arbitrary — I didn't want to spend
+too much on Claude API credits (see below), and 40 years felt about right.
+<br><br>
+Then, for every senator and representative who's served since 1987, I tracked:
+<br>
+<ul style="padding-left:20px">
+    <li>Which party they belonged to in each congress</li>
+    <li>What job they held in each congress (Representative vs Senator)</li>
+    <li>Which state they represented (I pulled this from the first line of their bio)</li>
+    <li>Whether they served as both Representative and Senator (a few bios needed fixing here)</li>
+</ul><br>
+The actual text of the biographies is very nicely and consistently formatted —
+it's all career stages separated by semicolons. I created indicator variables
+for a variety of career paths — <code>false</code> if, for example, the congressperson
+in question didn't go to, e.g., community college, and <code>Western Wyoming
+Community College</code> if they went to WWCC.
+<br><br>
+I initially did this manually to get a feel for the data, but I wrote a script
+to have Claude automatically code the thousands of bios since the '80s. This
+ended up setting me back % whole dollars! This is a lot for an api, and it's
+probably because I used a bigger system prompt than I should've. It was definitely
+worth it, though.
+<br><br>
+Finally, I merged in another dataset to get the specific district each representative
+represented for each congress.
+<br><br>
+With respect to the 
 <br>
 
 <br>
@@ -463,8 +571,8 @@ Fortunately,
                         labelY: height * 0.11,
                     }, {
                         id: "lawyerPubNoPrivBefore",
-                        x: width * 0.4,
-                        y: height * 0.33,
+                        x: width * 0.35,
+                        y: height * 0.3,
                         label: "",
                         labelX: 0,
                         labelY: 0
@@ -886,7 +994,8 @@ Fortunately,
                 if (shouldIncludeStage(politician.businessOrManagement))
                     careerStages.push("businessOrManagement");
                 if (shouldIncludeStage(politician.lawyerPrivatePractice) && !
-                    shouldIncludeStage(politician.businessOrManagement)) {
+                    shouldIncludeStage(politician.businessOrManagement) && !
+                    shouldIncludeStage(politician.military)) {
                     careerStages.push("lawOnlyAfter");
                 }
                 if (shouldIncludeStage(politician.military) && !
